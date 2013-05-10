@@ -276,8 +276,8 @@ function sp_install()
                         (16, 'Shortmail', 'smtp.shortmail.com', 465, 1);");
                             
         if (!file_exists(dirname(__file__) . '/inc/key.php')) {
-            $key = sp_rnd(15, 20);
-            $starter = sp_rnd(15, 20);
+            $key = sp_rnd(20,15);
+            $starter = sp_rnd(20,15);
     
             file_put_contents(dirname(__file__) . '/inc/key.php', '<?php $crypt_key="' . $key .   '"; $start_key="' . $starter .   '"; ?>');
         }
@@ -293,8 +293,8 @@ function sp_install()
     {
         $wpdb->query("DELETE FROM `" . $wpdb->base_prefix . "sp_accs` WHERE 1 ");
         $wpdb->query("DELETE FROM `" . $wpdb->base_prefix . "sp_logs` WHERE 1 ");
-        $key = sp_rnd(15, 20);
-        $starter = sp_rnd(15, 20);
+        $key = sp_rnd(20,15);
+        $starter = sp_rnd(20,15);
     
         file_put_contents(dirname(__file__) . '/inc/key.php', '<?php $crypt_key="' . $key .   '"; $start_key="' . $starter .   '"; ?>'); 
     }
