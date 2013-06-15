@@ -176,13 +176,13 @@ class SP_Soc_Logs_List_Table extends WP_List_Table_SP_Ex
         $del = $this->qarg + array('sp_del' => $item['id']);
         
         $actions = array(
-            'edit'      => '<a href="' . esc_url(get_edit_post_link($item['pid'])) . '" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
+            'edit'      => '<a data-id="'.$item['id'].'" href="' . esc_url(get_edit_post_link($item['pid'])) . '" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
             'view'    => '<a href="' . esc_url(get_permalink($item['pid'])) . '" TITLE="' . __('View','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/view.png" /></a>',
             'ponly'    => '<a href="' . add_query_arg($only_post_link) . '" title="'.__('Only This Post','sp_text_domain').'"><img width="16" height="16" src="'.SP_PURL.'/img/filter.png" /></a>',
         );
 
         if(is_super_admin())
-            $actions['delete'] = '<a id="sp_'.$item['id'].'" class="sp_del sp_logs"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>';
+            $actions['delete'] = '<a data-id="'.$item['id'].'" class="sp_del sp_logs"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>';
 
         
         $fby = $this->qarg + array('fby' => 'pid', 'fvar' => $item['pid']); 
@@ -212,9 +212,14 @@ class SP_Soc_Logs_List_Table extends WP_List_Table_SP_Ex
     
     function column_social($item) 
     {
+        $im = '';
+        
+        if(file_exists(SP_PDIR.'/img/'.$this->social[$item['social']]['prefix'].'.png'))
+            $im = '<img src="'.SP_PURL.'img/'.$this->social[$item['social']]['prefix'].'.png" />';
+                    
         $fby = $this->qarg + array('fby' => 'social', 'fvar' => $item['social']); 
         
-        return '<a href="' . add_query_arg($fby) . '">' . esc_html($this->social[$item['social']]['name']) . '</a>';
+        return $im.'<a href="' . add_query_arg($fby) . '">' . esc_html($this->social[$item['social']]['name']) . '</a>';
     }
     
     function column_status($item)

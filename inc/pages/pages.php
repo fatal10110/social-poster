@@ -215,6 +215,9 @@ function sp_settings_page()
             else {
                 file_put_contents(SP_PDIR.'/other/cli.txt',$path);
             }
+        } else {
+            if (is_numeric($_POST['sp_background_mode']) && isset($_POST['sp_background_mode'])) 
+                sp_upd_opt('sp_background_mode',$_POST['sp_background_mode']);
         }
         
         if(!isset($error))  
@@ -230,12 +233,13 @@ function sp_settings_page()
     $max_conn = sp_get_opt('sp_max_conn');
     $conn_method = sp_get_opt('sp_conn_method',1);
     $run_method = sp_get_opt('sp_run_method',2);
+    $background = sp_get_opt('sp_background_mode',1);
     $cli = (file_exists(SP_PDIR.'/other/cli.txt')) ? file_get_contents(SP_PDIR.'/other/cli.txt') : '';
     ?>
 
     <p>
     <form action="" method="POST">
-        <table style="width: 50%;">
+        <table class="sp-settings-table">
             <tr>
                 <td>
                     <strong><?php _e('Run method', 'sp_text_domain') ?>:</strong><br />
@@ -244,11 +248,13 @@ function sp_settings_page()
                     </span>                    
                 </td>
                 <td>
-                    <input <?php echo ($run_method == 1) ? 'checked="checked"' : '' ?>  value="1" style="margin-right: 5px;" type="radio" name="sp_run_method" />CLI / CGI
-                    <input <?php echo ($run_method == 2) ? 'checked="checked"' : '' ?>  value="2" style="margin-right: 5px; margin-left: 5px;" type="radio" name="sp_run_method" />HTTP
+                    <div id="sp_run_method">
+                        <input <?php echo ($run_method == 1) ? 'checked="checked"' : '' ?>  value="1" id="sp_run_method1" type="radio" name="sp_run_method" /><label for="sp_run_method1">CLI</label> 
+                        <input <?php echo ($run_method == 2) ? 'checked="checked"' : '' ?>  value="2" id="sp_run_method2" type="radio" name="sp_run_method" /><label for="sp_run_method2">HTTP</label>
+                    </div>
                 </td>                
             </tr>
-            <tr id="sp_cli_path" style="display: <?=($run_method == 1) ? 'table-row' : 'none' ?>;">
+            <tr class="sp_run_method1" style="display: <?=($run_method == 1) ? 'table-row' : 'none' ?>;">
                 <td>
                     <strong><?php _e('Path to PHP CLI', 'sp_text_domain') ?>:</strong><br />
                     <span style="margin-left: 5px;" class="description">
@@ -259,7 +265,7 @@ function sp_settings_page()
                     <input type="text" name="sp_php_cli" value="<?=$cli?>"/>
                 </td>                
             </tr>            
-            <tr id="sp_conn_method" style="display: <?=($run_method == 2) ? 'table-row' : 'none' ?>;">           
+            <tr class="sp_run_method2" style="display: <?=($run_method == 2) ? 'table-row' : 'none' ?>;">           
                 <td>
                     <strong><?php _e('Connection method', 'sp_text_domain') ?>:</strong><br />
                     <span style="margin-left: 5px;" class="description">
@@ -267,10 +273,26 @@ function sp_settings_page()
                     </span>                    
                 </td>
                 <td>
-                    <input <?php echo ($conn_method == 0) ? 'checked="checked"' : '' ?>  value="0" style="margin-right: 5px;" type="radio" name="sp_conn_method" />Local 
-                    <input <?php echo ($conn_method == 1) ? 'checked="checked"' : '' ?>  value="1" style="margin-right: 5px; margin-left: 5px;" type="radio" name="sp_conn_method" />External
+                    <div id="sp_conn_method">
+                        <input <?php echo ($conn_method == 0) ? 'checked="checked"' : '' ?> id="sp_conn_method1"  value="0" type="radio" name="sp_conn_method" /><label for="sp_conn_method1">Local</label> 
+                        <input <?php echo ($conn_method == 1) ? 'checked="checked"' : '' ?> id="sp_conn_method2" value="1" type="radio" name="sp_conn_method" /><label for="sp_conn_method2">External</label>
+                    </div>
                 </td>
-            </tr>        
+            </tr>
+            <tr class="sp_run_method2" style="display: <?=($run_method == 2) ? 'table-row' : 'none' ?>;">
+                <td>
+                    <strong><?php _e('Run in Background', 'sp_text_domain') ?>:</strong><br />
+                    <span style="margin-left: 5px;" class="description">
+                        <?php _e('Use ignore_user_abort() to run the poster in background','sp_text_domain') ?>
+                    </span>
+                </td>
+                <td>
+                    <div id="sp_background_mode">
+                        <input <?php echo ($background == 0) ? 'checked="checked"' : '' ?>  value="0" id="sp_background_mode1" name="sp_background_mode" type="radio"/><label for="sp_background_mode1">Disabled</label> 
+                        <input <?php echo ($background == 1) ? 'checked="checked"' : '' ?>  value="1" id="sp_background_mode2" name="sp_background_mode" type="radio"/><label for="sp_background_mode2">Enabled</label>              
+                    </div>
+                </td>
+            </tr>      
             <tr>
                 <td>
                     <strong><?php _e('Maximum accounts', 'sp_text_domain') ?>:</strong><br />
@@ -279,7 +301,7 @@ function sp_settings_page()
                     </span>
                 </td>
                 <td>
-                    <select name="sp_max_acc" style="width: 120px;">
+                    <select name="sp_max_acc" >
                     <?php
                         for ($i = 1; $i <= 20; $i++):
                             if ($i == $max_acc):
@@ -302,7 +324,7 @@ function sp_settings_page()
                     </span>
                 </td>
                 <td>
-                    <select name="sp_max_post_acc" style="width: 120px;">
+                    <select name="sp_max_post_acc" >
                     <?php
                         for ($i = 1; $i <= 10; $i++):
                             if ($i == $max_post_acc):
@@ -325,7 +347,7 @@ function sp_settings_page()
                     </span>
                 </td>
                 <td>
-                    <select name="sp_min_role" style="width: 120px;">
+                    <select name="sp_min_role">
                     <?php
                         foreach ($sp_roles as $key => $name):   
                             if ($min_role == $key):
@@ -348,7 +370,7 @@ function sp_settings_page()
                     </span>
                 </td>
                 <td>
-                    <select name="sp_max_conn" style="width: 120px;">
+                    <select name="sp_max_conn">
                     <?php
                         for ($i = 1; $i <= 20; $i++):
                             if ($i == $max_conn):
@@ -371,20 +393,32 @@ function sp_settings_page()
         </table>
     </form>
     </p>
+    
+    <span class="sp-tip">Tip: </span>
+    <div id="sp_demo_radio">
+        <input type="radio" id="sp_demo_radio1" checked="checked" /><label for="sp_demo_radio1">Checked</label>
+        <input type="radio" id="sp_demo_radio2"/><label for="sp_demo_radio2">Not Checked</label>
+    </div>
     <script>
-        jQuery(document).ready(function(){
-           jQuery('input[name="sp_run_method"]').change(function(){
-                if(jQuery(this).val() == '1')
+        jQuery(document).ready(function($) {
+           $('#sp_background_mode, #sp_conn_method, #sp_run_method').buttonset();
+           $('#sp_demo_radio').buttonset({disabled: true});
+           
+           $('input[name="sp_run_method"]').change(function(){
+                if($(this).val() == '1')
                 {
-                    jQuery('#sp_cli_path').show();
-                    jQuery('#sp_conn_method').hide();
+                    $('.sp_run_method2').fadeOut("fast", function() {
+                        $('.sp_run_method1').fadeIn("fast");
+                    });
+                    
+                    
                 } else {
-                    jQuery('#sp_cli_path').hide();
-                    jQuery('#sp_conn_method').show();                    
+                    $('.sp_run_method1').fadeOut("fast", function() {
+                        $('.sp_run_method2').fadeIn("fast");
+                    });                  
                 }
                     
            }); 
-            
         });
     </script>
 <?php

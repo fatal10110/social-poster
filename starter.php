@@ -1,4 +1,3 @@
-#!Z:\usr\local\php5\php-cgi.exe -q
 <?php
 
 /**
@@ -14,13 +13,15 @@ if ($_SERVER['SERVER_ADDR'] !== $_SERVER['REMOTE_ADDR'])
 set_time_limit(0);
 ignore_user_abort(true);
 
-ob_start();//start buffer output
-
-echo "start posting";
-session_write_close();//close session file on server side to avoid blocking other requests
-header("Content-Length: ".ob_get_length());//send length header
-header("Connection: close");
-ob_end_flush();flush();//really send content, can't change the order:1.ob buffer to normal buffer, 2.normal buffer to output
+if(!isset($_GET['connected'])) 
+{//LiteSpeed hack to work with ignore_user_abort()
+    ob_start();//start buffer output
+    echo "start posting";
+    session_write_close();//close session file on server side to avoid blocking other requests
+    header("Content-Length: ".ob_get_length());//send length header
+    header("Connection: close");
+    ob_end_flush();flush();//really send content, can't change the order:1.ob buffer to normal buffer, 2.normal buffer to output
+}
 //continue do something on server side
 ob_start();
 
@@ -30,7 +31,23 @@ require_once ('inc/functions.php');
 function starter()
 {    
     /** Plugin occupation level **/
-    $cooks = scandir('other/cooks/');
+    $cookPath = 'other/cooks/';
+    $cooks = scandir($cookPath);
+    $maxLifeTime = 300;
+    clearstatcache();
+    
+    foreach($cooks as $key => $cook) { //Clear old cookies
+        if($cook == '..' || $cook == '.') unset($cooks[$key]);
+        else {
+            $time = filemtime($filename);
+            
+            if($time && (time() - $time) > $maxLifeTime) {
+                unlink($cookPath.$cook);
+                unset($cooks[$key]);
+            }
+        }
+    }
+    
     $cooks = count($cooks) - 2;
     /****************************/
 
@@ -51,13 +68,12 @@ function starter()
     
         $starter = new starter();
         
-        die();
+        if(!isset($_GET['connected'])) die();
     
     }
 }
 
 starter();
-
 
 ob_end_clean();
 ?>

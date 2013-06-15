@@ -379,6 +379,7 @@ function sp_acc_form()
                     'pages' => '',
                 );
          }
+         
     ?>
         
         <div class="error" id="sp_error" style="display: none;"></div>
@@ -431,7 +432,6 @@ function sp_acc_form()
                         </select>
                     </div><div style="clear: left"></div>
                 </li>
-                
                 <li style="margin-bottom: 5px; ">
                     <div  class="sp_cont_left"><strong><?php _e('Automatization', 'sp_text_domain'); ?>:</strong> <img  title='<?php _e('if set to "Enabled" all your posts will be posted to the account automatically' , 'sp_text_domain');?>' src="<?=SP_PURL.'img/help.png'?>"/> </div>
 
@@ -601,8 +601,11 @@ function sp_acc()
                 if ($ex == 0) {
                     $_POST['sp_pages'] = trim($_POST['sp_pages']);
     
-                    $data = array('login' => $_POST['sp_login'], 'pass' => sp_codex($_POST['sp_pass'],
-                        $crypt_key), 'soc' => (int)$_POST['sp_social'], 'user' => $current_user->ID,
+                    $data = array(
+                        'login' => $_POST['sp_login'], 
+                        'pass' => sp_codex($_POST['sp_pass'], $crypt_key), 
+                        'soc' => (int)$_POST['sp_social'], 
+                        'user' => $current_user->ID,
                         'blog' => (isset($_POST['sp_blog']) && $_POST['sp_blog'] == 1) ? '0' : $blog_id,
                         'auto' => (bool)$_POST['sp_auto'], );
     
@@ -715,52 +718,39 @@ function sp_get_form()
     {
         
         $soc = array();
+        $id = (int)$_POST['id'];
         
-        if($_POST['type'] == 'sp_mail')
-        {
-            $name = 'sp_mail';
-            $id = (int)$_POST['id'];
-        } else {
+        if($_POST['type'] == 'sp_mail') $name = 'sp_mail';
+        else { 
             require_once (SP_PDIR.'/inc/soc.php');
             
             $name = 'sp_soc';
-            $id = explode('-',$_POST['id']);
             
-            $key = (int)$id[1];
-            $acc = (int)str_ireplace('sp_','',$id[0]);
-            
+            $key = $wpdb->get_var('SELECT `soc` FROM `' . $wpdb->base_prefix . 'sp_accs` 
+                                        WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '" AND `id` = "' . $id . '"');
+
             $soc = (isset($SP_SOCIALS[$key])) ? $SP_SOCIALS[$key] : array();
         }
         
         $arr = $name.'['.$_POST['id'].']';
         
-        
         if(!empty($soc) || $name === 'sp_mail')
         {          
             $the_post = get_post( $_POST['pid']);
             
+            if(!$the_post) die(__('Error occured','sp_text_domain'));
+            
             $text = $the_post->post_content;
             $title = $the_post->post_title;
             
-            if(isset($_POST['json']) && is_array($_POST['json'])) 
+            if(isset($_POST['form_data']) && is_array($_POST['form_data'])) 
             {
-                foreach($_POST['json'] as $key)
-                {
-                    if($key['name'] == $arr.'[text]')
-                        $text = $key['value'];
-                    if($key['name'] == $arr.'[image]')
-                        $image = $key['value'];
-                    if($key['name'] == $arr.'[title]')
-                        $title = $key['value'];
-                    if($key['name'] == $arr.'[desc]')
-                        $desc = $key['value'];
-                        
-                    if($key['name'] == $arr.'[page]' && $name === 'sp_soc')
-                        $page = $key['value'];
-
-                    if($key['name'] == $arr.'[sp_post_on]' && $name === 'sp_soc')
-                        $post_on = $key['value'];
-                }
+                $desc = $_POST['form_data']['desc'];
+                $image = $_POST['form_data']['image'];
+                $text = $_POST['form_data']['text'];
+                $title = $_POST['form_data']['title'];
+                $page = $_POST['form_data']['page'];
+                $post_on = $_POST['form_data']['sp_post_on'];
 
             } else {
                 $text = ($name !== 'sp_mail') ? strip_tags($text) : $text;
@@ -771,10 +761,12 @@ function sp_get_form()
                 if($name === 'sp_soc')
                 {
                     $data = $wpdb->get_row('SELECT `pages`,`post_on` FROM  `' . $wpdb->base_prefix . 'sp_accs` 
-                                        WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '" AND  `id` = "' . $acc . '"');
+                                        WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '" AND  `id` = "' . $id . '"');
+                    
                     if(!empty($data->pages))
                     {
                         $pages = unserialize($data->pages);
+                                                
                         $page = is_array($pages) ? esc_html(implode("\r\n",$pages)) : '';
                     } else 
                         $page = '';
@@ -789,7 +781,6 @@ function sp_get_form()
             
             if($soc['content']['image'] == 1)
             {
-            
                 $images  = array();
                 
                 if(($th = wp_get_attachment_url(get_post_thumbnail_id($_POST['pid']))))
@@ -806,30 +797,34 @@ function sp_get_form()
                     }
                 }            
                       
-                $arrImages = get_children( array( 'post_parent' => (int)$_POST['pid'], 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
+                $arrImages = get_children( array( 
+                                    'post_parent' => (int)$_POST['pid'], 
+                                    'post_type' => 'attachment', 
+                                    'post_mime_type' => 'image', 
+                                    'orderby' => 'menu_order', 
+                                    'order' => 'ASC', 
+                                    'numberposts' => 999 ) 
+                );
+                
                 $arrKeys = array_keys($arrImages); 
                 
                 foreach($arrKeys as $att)
                 {
                     $url = wp_get_attachment_url($att);
                     
-                    if(!in_array($url,$images))
-                        $images[] = $url;
+                    if(!in_array($url,$images)) $images[] = $url;
                 }
             }
 
-            if((isset($_POST['json']) && empty($image)) || empty($images))
-            {
-                $none_style = 'block';
-            } else
-                $none_style = 'none';
+            if((isset($_POST['form_data']) && empty($image)) || empty($images)) $none_style = 'block';
+            else $none_style = 'none';
+            
             ?>
             <form id="frm" >
-            <input type="hidden" name="pre" value="<?=esc_html($_POST['id'])?>"/>
-            <div style="width: <?=($soc['content']['page'] == 1 || $soc['content']['image'] == 1) ? '715px' : '500px'; ?>">
-            <div style="float: left; width: 200px;  margin-right: 10px;">
+            <div class="sp-post-popup-wrapper <?=($soc['content']['page'] == 1 || $soc['content']['image'] == 1) ? 'sp-big' : 'sp-small' ?>">
+            <div class="sp-im-wrapper">
             <?php if($soc['content']['image'] == 1): ?>
-                <ul id="sp_im" style="list-style-type: none; padding: 0px; margin: 0px;">
+                <ul id="sp_im">
                     <li style="display: <?=$none_style;?>;" > 
                         <div id="sp_noim"><?php _e('No Image','sp_text_domain'); ?></div>
                     </li>
@@ -846,17 +841,18 @@ function sp_get_form()
                                 
                             
                     ?>                        
-                            <li class="sp_im" style="background: white url('<?=SP_PURL?>timthumb.php?src=<?=urlencode($im)?>&w=200&h=200') center no-repeat; width: 202px; height: 202px; display: <?=$style;?>;"> </li>
+                            <li class="sp_im" style="background-image: url('<?=$im?>'); display: <?=$style;?>;"> </li>
                 <?php 
                         endforeach; 
                 endif;
                 ?>
                 </ul>   
-                <div style="text-align: center; height: 10px; width: 200px; margin: 10px 0px 20px 0px;">
+                <div class="sp_im_nav">
                     <a href="#" class="sp_im_butt sp_im_prev" id="sp_im_prev">&#8249;</a>
                     <a href="#" class="sp_im_butt sp_im_next" id="sp_im_next">&#8250;</a>          
                 </div>
             <?php endif; ?>
+            
             <?php if($soc['content']['page'] == 1): ?>
       		    <div style="height: 50px;">
             			<div class="sp_cont_left"><strong><?php _e('Post On','sp_text_area'); ?>:</strong></div> 

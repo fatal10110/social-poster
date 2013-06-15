@@ -168,8 +168,8 @@ class SP_Groups_List_Table extends WP_List_Table_SP_Ex
         $edit = add_query_arg($edit);        
         
         $actions = array(
-            'edit'      => '<a id="sp_'.$item['gid'].'" class="sp_edit sp_mail_grp" href="#" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
-            'delete'    => '<a id="sp_'.$item['gid'].'" class="sp_del sp_mail_grp"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>',
+            'edit'      => '<a data-id="'.$item['gid'].'" class="sp_edit sp_mail_grp" href="#" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
+            'delete'    => '<a data-id="'.$item['gid'].'" class="sp_del sp_mail_grp"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>',
         );
         
         $fby = $this->qarg + array('fby' => 'gname', 'fvar' => $item['gname']); 
