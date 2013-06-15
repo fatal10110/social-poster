@@ -73,9 +73,9 @@ if($res || $res2)
             $a['pass'] = $acc->pass;
             $a['desc'] = '';
             
-            if(isset($_POST['sp_soc']['sp_'.$acc->id.'-'.$acc->soc]) && is_array($_POST['sp_soc']['sp_'.$acc->id.'-'.$acc->soc]))
+            if(isset($_POST['sp_soc'][$acc->id]) && is_array($_POST['sp_soc'][$acc->id]))
             {
-                    $spec_soc = $_POST['sp_soc']['sp_'.$acc->id.'-'.$acc->soc];
+                    $spec_soc = $_POST['sp_soc'][$acc->id];
                     
                     if(isset($spec_soc['text']))
                         $a['text'] = $spec_soc['text'];
@@ -139,9 +139,9 @@ if($res || $res2)
             $a['port'] = $grp->port;
             $a['emails'] = $grp->emails;
 
-            if(isset($_POST['sp_mail']['sp_'.$grp->id]) && is_array($_POST['sp_mail']['sp_'.$grp->id]))
+            if(isset($_POST['sp_mail'][$grp->id]) && is_array($_POST['sp_mail'][$grp->id]))
             {
-                    $spec_soc = $_POST['sp_mail']['sp_'.$grp->id];
+                    $spec_soc = $_POST['sp_mail'][$grp->id];
                     
                     if(isset($spec_soc['text']))
                         $a['text'] = stripslashes($spec_soc['text']);
@@ -181,25 +181,37 @@ if($res || $res2)
     $queue->ffunlock();
     
     
-    
+   
     if(sp_get_opt('sp_run_method') == '1' && file_exists(SP_PDIR.'/other/cli.txt'))
     {
         $cli = file_get_contents(SP_PDIR.'/other/cli.txt');
         $script = SP_PDIR.'/starter.php';
         sp_exec_nowait($cli.' '.$script.' sec='.$start_key.' cli=1');
     } else {
-        $fp = fsockopen($serv, 80, $errno, $errstr, 5);
+        $background = sp_get_opt('sp_background_mode',1);
+        $url = $path . '/starter.php?sec=' . urlencode($start_key);
         
+        if(!$background) $url .= '&connected';
+        
+        $fp = fsockopen($serv, 80, $errno, $errstr, 5);
+         
         if ($fp) {
-            $out = "GET /" . $path . '/starter.php?sec=' . urlencode($start_key) . " HTTP/1.1\r\n";
+            $out = "GET /" . $url . " HTTP/1.1\r\n";
             $out .= "Host: " . $_SERVER['HTTP_HOST'] . "\r\n";
             $out .= "User-Agent: " . $_SERVER['HTTP_USER_AGENT'] . "\r\n";
             $out .= "Connection: Close\r\n\r\n";
         
-        fwrite($fp, $out);
-        fgets($fp, 128);
-        sleep(2);
-        fclose($fp);   ;
+            fwrite($fp, $out);
+            if($background) {
+                fgets($fp, 128);
+                sleep(2);
+            } else {
+                while (!feof($fp)) {
+                    fgets($fp, 128);
+                } 
+            }
+            
+            fclose($fp);   ;
         }
     }
     

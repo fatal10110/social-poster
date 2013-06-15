@@ -20,7 +20,7 @@ class starter
         if(!$this->decode_args())
             return false;
         
-        $this->start_new();
+        if(!isset($_GET['connected'])) $this->start_new();
         
         $this->status = new status($this->args['fpath']);
         
@@ -221,7 +221,9 @@ class starter
         if(!empty($data))
         {
             $this->queue->ffunlock();
-            $this->start_new();
+            
+            if(!isset($_GET['connected'])) $this->start_new(); 
+            elseif(!$this->decode_args()) $this->start_mail();
         }
         
         die();      
@@ -233,7 +235,7 @@ class starter
         
         if(isset($this->args['page']))
             $this->page = $this->args['page'];
-
+        
         if(!isset($SP_SOCIALS[$this->args['soc']]))
         {
             $this->status->set_status('0',$this->st_id);
@@ -242,7 +244,7 @@ class starter
         
         $soc = $SP_SOCIALS[$this->args['soc']];
         
-        $accque = $this->path.'/other/queue/'.base64_encode($this->args['login']).'_'.$soc['prefix'];
+        $accque = $this->path.'/other/queue/'.base64_encode($this->args['login']).'_'.$soc['prefix'].'.txt';
         
         $acc_queue = new SP_FILES($accque);
         
@@ -256,7 +258,7 @@ class starter
             require_once('poster.class.php');
             require_once('soc/'.$soc['file']);
             
-            $cook = $this->path.'/other/cooks/'.base64_encode($this->args['login']).sp_rnd('5').'_'.$soc['prefix'];
+            $cook = $this->path.'/other/cooks/'.base64_encode($this->args['login']).sp_rnd('5').'_'.$soc['prefix'].'.txt';
             
             $poster->set_params($this->args,$cook);
             
@@ -267,7 +269,7 @@ class starter
                 $acc_queue->ffunlock();
                  
                 $poster->set_params($this->args,$cook);
-            
+                
                 $this->status->set_status('2',$this->st_id);
                 $this->status->set_status($poster->post(),$this->st_id);
 
@@ -292,7 +294,9 @@ class starter
         if(!empty($data))
         {
             $this->queue->ffunlock();
-            $this->start_new();
+            
+            if(!isset($_GET['connected'])) $this->start_new(); 
+            elseif(!$this->decode_args()) $this->start_soc();
         }
         
         die();

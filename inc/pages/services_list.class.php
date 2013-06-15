@@ -129,8 +129,8 @@ class SP_Services_List_Table extends WP_List_Table_SP_Ex
         $edit = $this->qarg + array('action' => 'sedit', 'sid' => $item['id'], 'order' => false, 'orderby' => false);;
         
         $actions = array(
-            'edit'      => '<a id="sp_'.$item['id'].'" class="sp_edit sp_mail_svc" href="#" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
-            'delete'    => '<a id="sp_'.$item['id'].'" class="sp_del sp_mail_svc"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>',
+            'edit'      => '<a data-id="'.$item['id'].'" class="sp_edit sp_mail_svc" href="#" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
+            'delete'    => '<a data-id="'.$item['id'].'" class="sp_del sp_mail_svc"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>',
 
         );
         

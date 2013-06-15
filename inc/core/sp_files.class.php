@@ -10,10 +10,20 @@ class SP_FILES
     private $file = '';
     private $res = null;
     private $locked = 0;
+    private $maxLifeTime = 600;
     
     public function __construct($file)
     {
         $this->file = $file;  
+        
+        if(basename($this->file) != 'queue.txt')
+        {
+            if(file_exists($this->file))
+            {
+                if((time() - filemtime($this->file))  > $this->maxLifeTime)
+                    unlink($this->file);
+            }
+        }
     }
     
     public function fflock()

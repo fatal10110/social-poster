@@ -17,8 +17,7 @@ add_action('admin_menu', 'sp_register_admin_menu');
 add_action('init', 'sp_on_init');
 add_action('add_meta_boxes', 'sp_add_post_box_setup', 10, 2);
 add_action('save_post', 'soc_start_posting',10,2);
-add_action('admin_head', 'sp_plugin_admin_head');
-add_action('init', 'sp_plugin_admin_init');
+add_action('admin_enqueue_scripts', 'sp_plugin_admin_head');
 add_action('plugins_loaded', 'sp_lang_init');
 
 
@@ -47,30 +46,6 @@ if (get_magic_quotes_gpc())
 
 require_once(SP_PDIR.'/inc/pages/pages.php');
 
-function sp_plugin_admin_init()
-{
-    
-    wp_register_style('sp_style', plugins_url('/css/style.css', __FILE__),SP_RES_VER);
-    
-    wp_enqueue_style('social_poster-admin-ui-css',
-                        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/smoothness/jquery-ui.css',
-                        false,
-                        '1.6',
-                        false);
-    wp_enqueue_style('sp_style');
-       
-    wp_register_script('sp_ddslick', plugins_url('/js/ddslick.min.js ', __FILE__), array('jquery'),SP_RES_VER);
-    wp_register_script('sp_script', plugins_url('/js/sp.js', __FILE__), array('jquery'),SP_RES_VER);
-    
-    wp_enqueue_script( 'jquery-ui-core' );
-    wp_enqueue_script( 'jquery-ui-dialog' );
-
-    wp_enqueue_script('sp_script');
-    wp_enqueue_script('sp_ddslick');
-
-
-}
-
 function sp_plugin_admin_head()
 {
         echo "<script type='text/javascript'>
@@ -84,9 +59,24 @@ function sp_plugin_admin_head()
                 cancel:    '". __('Cancel') ."',
                 error:    '". __('Error') ."',
                 ok:    '". __('OK') ."',
+                save:    '". __('Save') ."',
         };
         </script>";
- return;
+        
+    
+    wp_enqueue_style('social_poster-admin-ui-css',
+                        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/smoothness/jquery-ui.css',
+                        false,
+                        '1.6',
+                        false);
+                        
+    wp_enqueue_style('sp_style', plugins_url('/css/style.css', __FILE__),SP_RES_VER);
+    
+    wp_enqueue_script( 'jquery-ui-core' );
+    wp_enqueue_script( 'jquery-ui-dialog' );
+
+    wp_enqueue_script('sp_ddslick', plugins_url('/js/ddslick.min.js ', __FILE__), array('jquery'),SP_RES_VER);
+    wp_enqueue_script('sp_script', plugins_url('/js/sp.js', __FILE__), array('jquery'),SP_RES_VER);        
 }
 
 /**
@@ -276,8 +266,8 @@ function sp_install()
                         (16, 'Shortmail', 'smtp.shortmail.com', 465, 1);");
                             
         if (!file_exists(dirname(__file__) . '/inc/key.php')) {
-            $key = sp_rnd(15, 20);
-            $starter = sp_rnd(15, 20);
+            $key = sp_rnd(20,15);
+            $starter = sp_rnd(20,15);
     
             file_put_contents(dirname(__file__) . '/inc/key.php', '<?php $crypt_key="' . $key .   '"; $start_key="' . $starter .   '"; ?>');
         }
@@ -293,8 +283,8 @@ function sp_install()
     {
         $wpdb->query("DELETE FROM `" . $wpdb->base_prefix . "sp_accs` WHERE 1 ");
         $wpdb->query("DELETE FROM `" . $wpdb->base_prefix . "sp_logs` WHERE 1 ");
-        $key = sp_rnd(15, 20);
-        $starter = sp_rnd(15, 20);
+        $key = sp_rnd(20,15);
+        $starter = sp_rnd(20,15);
     
         file_put_contents(dirname(__file__) . '/inc/key.php', '<?php $crypt_key="' . $key .   '"; $start_key="' . $starter .   '"; ?>'); 
     }
@@ -560,9 +550,9 @@ function sp_add_post_box($post)
 		<div id="sp-email" class="tabs-panel" style="display: none;">
                 <?php foreach ($emails as $mail): ?>
                             <label class="selectit">
-                                <input <?php echo ($mail->auto == 1) ? 'checked="checked"' : '' ?> value="<?= $mail->id ?>" type="checkbox" name="sp_mail_grps[]" id="<?= $mail->id ?>"/> 
+                                <input <?php echo ($mail->auto == 1) ? 'checked="checked"' : '' ?> value="<?= $mail->id ?>" type="checkbox" name="sp_mail_grps[]"/> 
                                 <strong><?= esc_html($mail->sname) ?></strong>::<?= esc_html($mail->name) ?>
-                                <a href="#" title="<?= esc_html($mail->sname) ?>::<?= esc_html($mail->name) ?>" id="sp_<?=$mail->id?>" class="sp_edit_post sp_mail"><img height="12" width="12" src="<?=SP_PURL?>img/edit.png" /></a>
+                                <a href="#" title="<?= esc_html($mail->sname) ?>::<?= esc_html($mail->name) ?>" data-acc="<?=$mail->id?>"  class="sp_edit_post sp_mail"><img height="12" width="12" src="<?=SP_PURL?>img/edit.png" /></a>
                             </label> <br />
                   <?php endforeach; ?>    
 		</div> 
@@ -570,9 +560,9 @@ function sp_add_post_box($post)
 		<div id="sp-social" class="tabs-panel">			
                   <?php foreach ($accs as $acc): ?>
                             <label class="selectit">
-                                <input <?php echo ($acc->auto == 1) ? 'checked="checked"' : '' ?> value="<?= $acc->id ?>" type="checkbox" name="soc_accs[]" id="<?= $acc->id ?>"/> 
+                                <input <?php echo ($acc->auto == 1) ? 'checked="checked"' : '' ?> value="<?= $acc->id ?>" type="checkbox" name="soc_accs[]"/> 
                                 <strong><?= $SP_SOCIALS[$acc->soc]['name'] ?></strong>::<?= esc_html($acc->login) ?>
-                                <a href="#" title="<?= $SP_SOCIALS[$acc->soc]['name'] ?>::<?= esc_html($acc->login) ?>" id="sp_<?=$acc->id?>-<?=$acc->soc?>" class="sp_edit_post sp_soc"><img height="12" width="12" src="<?=SP_PURL?>img/edit.png" /></a>
+                                <a href="#" title="<?= $SP_SOCIALS[$acc->soc]['name'] ?>::<?= esc_html($acc->login) ?>" data-acc="<?=$acc->id?>" class="sp_edit_post sp_soc"><img height="12" width="12" src="<?=SP_PURL?>img/edit.png" /></a>
                             </label> <br />
                   <?php endforeach; ?>
 		</div>          
