@@ -169,13 +169,13 @@ class SP_Mail_Logs_List_Table extends WP_List_Table_SP_Ex
         $del = $this->qarg + array('sp_del' => $item['id']);
         
         $actions = array(
-            'edit'      => '<a href="' . esc_url(get_edit_post_link($item['pid'])) . '" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
+            'edit'      => '<a data-id="'.$item['id'].'" href="' . esc_url(get_edit_post_link($item['pid'])) . '" TITLE="' . __('Edit','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
             'view'    => '<a href="' . esc_url(get_permalink($item['pid'])) . '" TITLE="' . __('View','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/view.png" /></a>',
             'ponly'    => '<a href="' . add_query_arg($only_post_link) . '" title="'.__('Only This Post','sp_text_domain').'"><img width="16" height="16" src="'.SP_PURL.'/img/filter.png" /></a>',
          );
          
          if(is_super_admin())
-            $actions['delete'] =  '<a id="sp_'.$item['id'].'" class="sp_del sp_logs"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>';
+            $actions['delete'] =  '<a data-id="'.$item['id'].'" class="sp_del sp_logs"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>';
 
         
         $fby = $this->qarg + array('fby' => 'pid', 'fvar' => $item['pid']); 

@@ -33,10 +33,12 @@ class FC extends poster
             $r = $this->c->post('https://www.facebook.com/checkpoint/?next','fb_dtsg='.urlencode($fbdt[1]).'&nh='.$nh[1].'&name_action_selected=save_device&submit%5BContinue%5D=%D0%9F%D1%80%D0%BE%D0%B4%D0%BE%D0%BB%D0%B6%D0%B8%D1%82%D1%8C');   
             $r = $this->c->post('https://www.facebook.com/checkpoint/?next','fb_dtsg='.urlencode($fbdt[1]).'&nh='.$nh[1].'&name_action_selected=save_device&submit%5BContinue%5D=%D0%9F%D1%80%D0%BE%D0%B4%D0%BE%D0%BB%D0%B6%D0%B8%D1%82%D1%8C');   
         }
+    
     }
     
     public function post()
     {
+        
         $url = urlencode($this->url);
         $image = urlencode($this->image);
         $title = urlencode($this->title);

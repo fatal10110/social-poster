@@ -109,3 +109,96 @@ div.sp_cont_left {
 	position:relative;
 	top:1px;
 }
+
+#sp_res_load {
+	float:left; 
+	padding-right: 10px; 
+	padding-top: 10px;
+}
+
+#sp_res_load img {
+	width: 24px;
+	height: 24px;
+}
+
+#sp_popup_wrapper #sp-load_ajax-image {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 32px;
+   height: 32px;
+   margin-top: -16px; /* Half the height */
+   margin-left: -16px; /* Half the width */
+}
+
+table.wp-list-table td.social.column-social img {
+	float: left;
+	margin-right: 5px;
+	height: 100%;
+}
+
+table.wp-list-table td.social.column-social a{
+	float: left;
+	margin-top: 9px;
+}
+
+table.wp-list-table td.social.column-social::after { 
+   content: "";
+   display: block; 
+   visibility: hidden; 
+   clear: both;
+}
+
+table.wp-list-table td.account.column-account {
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.sp-tip {
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.sp-settings-table  {
+	min-width: 545px;
+}
+
+.sp-settings-table select, .sp-settings-table input[type="text"]{
+	font-size: 16px;
+	width: 200px;
+}
+
+.sp-post-popup-wrapper.sp-big {
+	width: 715px;
+}
+
+.sp-post-popup-wrapper.sp-small {
+	width: 500px;
+}
+
+.sp-post-popup-wrapper .sp-im-wrapper {
+	float: left; 
+	width: 200px;  
+	margin-right: 10px;
+}
+
+#sp_im {
+	list-style-type: none; 
+	padding: 0px; 
+	margin: 0px;
+}
+
+#sp_im li {
+	background-repeat: no-repeat; 
+	background-position: center center; 
+	background-size: contain;
+	width: 202px; 
+	height: 202px;	
+}
+
+.sp_im_nav {
+	text-align: center; 
+	height: 10px; 
+	width: 200px; 
+	margin: 10px 0px 20px 0px;
+}

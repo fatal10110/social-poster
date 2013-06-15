@@ -166,8 +166,8 @@ class SP_Acc_List_Table extends WP_List_Table_SP_Ex
         $edit = add_query_arg($edit);        
         
         $actions = array(
-            'edit'      => '<a id="sp_'.$item['aid'].'" class="sp_edit sp_acc" href="#" TITLE="' . __('Edit Account','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
-            'delete'    => '<a id="sp_'.$item['aid'].'" class="sp_del sp_acc"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>',
+            'edit'      => '<a data-id="'.$item['aid'].'" class="sp_edit sp_acc" href="#" TITLE="' . __('Edit Account','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/edit.png" /></a>',
+            'delete'    => '<a data-id="'.$item['aid'].'" class="sp_del sp_acc"  href="#" TITLE="' . __('Delete','sp_text_domain') . '"><img width="13" height="13" src="'.SP_PURL.'/img/del.png" /></a>',
         );
         
         $fby = $this->qarg + array('fby' => 'account', 'fvar' => $item['account']); 
@@ -188,11 +188,16 @@ class SP_Acc_List_Table extends WP_List_Table_SP_Ex
         return '<a href="' . add_query_arg($fby) . '" title="'.__('Click to activate the filter','sp_text_domain').'">' . esc_html(get_userdata($item['user'])->user_login) . '</a>';
     }
     
-        function column_social($item) 
+    function column_social($item) 
     {
+        $im = '';
+        
+        if(file_exists(SP_PDIR.'/img/'.$this->social[$item['social']]['prefix'].'.png'))
+            $im = '<img src="'.SP_PURL.'img/'.$this->social[$item['social']]['prefix'].'.png" />';
+            
         $fby = $this->qarg + array('fby' => 'social', 'fvar' => $item['social']); 
         
-        return '<a href="' . add_query_arg($fby) . '" title="'.__('Click to activate the filter','sp_text_domain').'">' . esc_html($this->social[$item['social']]['name']) . '</a>';
+        return $im.'<a href="' . add_query_arg($fby) . '" title="'.__('Click to activate the filter','sp_text_domain').'">' . esc_html($this->social[$item['social']]['name']) . '</a>';
     }
     
     function column_blog($item) 
