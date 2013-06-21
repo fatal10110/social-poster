@@ -136,6 +136,8 @@ var SP_core = {
         var title = edited_acc.attr('title');
         var name = '';
         var pid = jQuery('#post_ID').val();
+		
+		jQuery(this).parents('.selectit').find('input[type="checkbox"]').attr('checked','checked');
                 
         if(edited_acc.hasClass('sp_soc')) name = 'sp_soc';
         else name = 'sp_mail';
