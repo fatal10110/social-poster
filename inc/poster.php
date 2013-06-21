@@ -77,24 +77,29 @@ if($res || $res2)
             {
                     $spec_soc = $_POST['sp_soc'][$acc->id];
                     
+                    if(isset($spec_soc['title']))
+                        $a['title'] = $spec_soc['title'];                    
+                    
                     if(isset($spec_soc['text']))
-                        $a['text'] = $spec_soc['text'];
-                        
+                    {
+                        if($SP_SOCIALS[$acc->soc]['prefix'] != 'tw')
+                            $a['text'] = $spec_soc['text'];
+                        else //Twitter is using the title
+                            $a['title'] = $spec_soc['text'];
+                    }   
+                    
                     if(isset($spec_soc['desc']))
                         $a['desc'] = $spec_soc['desc'];
-                                        
-                    if(isset($spec_soc['title']))
-                        $a['title'] = $spec_soc['title'];
                     
                     if(isset($spec_soc['image']))
                         $a['image'] = $spec_soc['image'];
             
-                    if(!empty($spec_soc['page']))
+                    if(!empty($spec_soc['page']) && ($spec_soc['sp_post_on'] || $SP_SOCIALS[$acc->soc]['prefix'] == 'pint'))
                         $pages = explode("\r\n",trim($spec_soc['page']));
 
-            } elseif(!empty($acc->pages)) 
-                $pages = ($acc->post_on == 1 || $acc->soc == '13') ? unserialize($acc->pages) : '';
-            
+            } elseif(!empty($acc->pages)) //If post on page or it's pinterest
+                $pages = ($acc->post_on == 1 || $SP_SOCIALS[$acc->soc]['prefix'] == 'pint') ? unserialize($acc->pages) : '';
+
             if($acc->soc == 13 && empty($pages)) continue;
 
             $a['ftext'] = strip_tags($a['text']);
@@ -188,6 +193,7 @@ if($res || $res2)
         $script = SP_PDIR.'/starter.php';
         sp_exec_nowait($cli.' '.$script.' sec='.$start_key.' cli=1');
     } else {
+        set_time_limit(0);
         $background = sp_get_opt('sp_background_mode',1);
         $url = $path . '/starter.php?sec=' . urlencode($start_key);
         

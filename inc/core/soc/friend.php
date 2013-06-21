@@ -31,8 +31,6 @@ class FRIEND extends poster
         $r = $this->c->post('http://friendfeed.com/a/share',$post);
         
         preg_match('#id"\:"(\w+?)"#',$r,$id);
-               
-       sleep(5);
        
        if(isset($id[1]))
             return '1';

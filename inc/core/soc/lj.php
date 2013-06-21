@@ -32,7 +32,7 @@ class LJ extends poster
 
         $r = $this->c->post('http://www.livejournal.com/update.bml',$post);
         
-        if(preg_match('#<a href="/editjournal\.bml\?journal=.+?&itemid=\d+?">#',$r))
+        if(preg_match('#'.urldecode($title).'#',$r))
             return '1';
         
         return '0';
