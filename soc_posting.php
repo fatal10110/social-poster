@@ -332,7 +332,7 @@ function sp_register_admin_menu()
 
 function soc_start_posting($post_id,$post)
 {
-    global $wpdb,$blog_id,$current_user;
+    global $wpdb,$blog_id,$current_user, $SP_SOCIALS;
 
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
         return $post_id;

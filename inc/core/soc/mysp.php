@@ -11,9 +11,16 @@ class MYSP extends poster
     {
         $login = urlencode($this->login);
         $pass = urlencode($this->pass);
-
-        $post = 'Email='.$login.'&Password='.$pass.'';
-        $this->c->post('https://www.myspace.com/auth/login',$post);
+        $r = $this->c->get('https://myspace.com/signin');
+        
+        preg_match('#"pageId":"([^"]+?)"#',$r, $pid);
+        preg_match('#"hashMashter":"([^"]+?)"#',$r, $hash);
+        
+        
+        $headers = array('X-Requested-Wit: XMLHttpRequest','Hash: '.$hash[1]);
+        
+        $post = 'email='.$login.'&password='.$pass.'&pageId='.$pid[1];
+        $this->c->post('https://myspace.com/ajax/account/signin',$post, $headers);
     }
     
     public function post()
@@ -26,29 +33,28 @@ class MYSP extends poster
         
 
         $r = $this->c->get('http://www.myspace.com/home');
-        preg_match('#name="hash"[^>]+?value="([^"]+?)"#',$r,$hash);
+        preg_match('#"hashMashter":"([^"]+?)"#',$r, $hash);         
+        $headers = array('X-Requested-Wit: XMLHttpRequest','Hash: '.$hash[1]);
+        $post = 'url='.urlencode($this->url);
         
-        $r = $this->c->get('http://scraper.myspace.com/Modules/SuperShare/Services/Scraper.ashx?jsonp=jQuery1520005306529935637294_1337426662223&url='.$url.'&_=1337426696555');
+        $r = $this->c->post('https://myspace.com/ajax/stream/scrape',$post, $headers);
 
         
-        if(!empty($image) && !preg_match('#"images"\:\[.*?"'.preg_quote(urldecode($image),'#').'".*?\],#',$r))
+       /* if(!empty($image) && !preg_match('#"images"\:\[.*?"'.preg_quote(urldecode($image),'#').'".*?\],#',$r))
         {
             preg_match('#"images"\:\["(.+?)".*?\],#',$r,$im);
             
             
             $image = urlencode($im[1]);
         }
+        */
         
-        $headers = array('hash' => urlencode($hash[1]),'X-Requested-With' => 'XMLHttpRequest');
-        $post = 'url='.$url.'&title='.$title.'&domain=&description='.$text.'&image='.$image.'&favicon=null&mediaType=BookMark&mediaUrl=null&mediaHeight=0&mediaWidth=0&contentType=null&actionText=&token=&status='.$desc.'&isLinkedStatus=false&hash='.urlencode($hash[1]).'&theme=List&showToolbarButtons=true&streamMiniProfileImageSize=Notification&showTimeZoneInToolbar=true';
-        $r = $this->c->post('http://www.myspace.com/Modules/PageEditor/Handlers/Common/SaveStatus.ashx',$post,$headers);
+        $headers = array('hash' => $hash[1],'X-Requested-With' => 'XMLHttpRequest');
+        $post = 'comment='.$desc.'&locationentitykey&postlink=true&linkurl='.$url.'&linkdescription='.$text.'&linkthumbnail='.$image.'&linkcontenttype=text%2Fhtml&linkmediatype=Website';
         
-        preg_match('#data-item=\\\\"(\d+?_\d+?)_ShareItem\\\\"#',$r,$up);
-        
-        sleep(5);
-        
-        
-        if(isset($up['1']))
+        $r = $this->c->post('https://myspace.com/ajax/stream/superpost',$post,$headers);
+
+        if(preg_match('#\{"success"\:true#',$r))
             return '1';
         
         return '0';
