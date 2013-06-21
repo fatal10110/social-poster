@@ -464,7 +464,7 @@ function sp_add_post_box_setup($id, $post)
     if (isset($post->link_id) || !sp_user_rights())
         return;
 
-    add_meta_box('sp_social_poster', __('Social Poster', 'sp_text_domain'),'sp_add_post_box', null, 'side');
+    add_meta_box('sp_social_poster', __('Social Poster', 'sp_text_domain'),'sp_add_post_box', null, 'advanced', 'high');
 }
 
 /**
@@ -532,7 +532,6 @@ function sp_add_post_box($post)
         }
 
         $sql = 'SELECT `auto`,`id`,`login`,`soc` FROM `' . $wpdb->base_prefix . 'sp_accs` WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '"';
-
         $sql2 = 'SELECT `t1`.`auto`,`t1`.`id`,`t1`.`name`,`t2`.`name` AS `sname` FROM `' . $wpdb->base_prefix . 'sp_mail_groups` AS `t1`
                     INNER JOIN `' . $wpdb->base_prefix . 'sp_mail_services` AS `t2` ON `t1`.`service` = `t2`.`id` WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '"';
 
@@ -541,6 +540,34 @@ function sp_add_post_box($post)
         
 
 ?>
+        <div class="sp-post-popup-wrapper">
+            <div class="sp-im-wrapper">
+                <input type="hidden" name="image" />
+                <ul id="sp_im">
+                    <li style="display: <?=(count($images) > 0) ? 'block' : 'none';?>;" > 
+                        <div class="sp_noim"><?php _e('No Image','sp_text_domain'); ?></div>
+                    </li>
+                    <?php if(!empty($images)) : ?>
+                        <?php foreach($images as $key => $im) : ?>
+                            <?php
+                                if(!key) $style = 'block';
+                                else $style = 'none';
+                            ?>
+                            <li class="sp_im" style="background-image: url('<?=$im?>'); display: <?=$style;?>;"> </li>
+                        <?php endforeach; ?> 
+                    <?php endif; ?>
+                </ul>
+                <div class="sp_im_nav">
+                    <a href="#" class="sp_im_butt sp_im_prev" id="sp_im_prev">&#8249;</a>
+                    <a href="#" class="sp_im_butt sp_im_next" id="sp_im_next">&#8250;</a>          
+                </div>
+            </div>
+            <div>
+                <input type="text" name="title" class="sp_style sp-post-title" value="<?=esc_html($title)?>" /><br />
+                <textarea name="text"  class="sp_style sp-post-text"><?=esc_html($text)?></textarea>
+            </div>
+            <textarea class="sp_style sp-post-desc" name="desc" ><?=esc_html($desc)?></textarea>
+        </div>
 	<div id="sp-cat" class="categorydiv">
 		<ul id="cat-tabs" class="category-tabs">
 			<li class="tabs"><a href="#sp-social" tabindex="3"><?php _e('Socials','sp_text_domain') ?></a></li>

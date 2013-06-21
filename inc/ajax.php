@@ -841,7 +841,7 @@ function sp_get_form()
                                 
                             
                     ?>                        
-                            <li class="sp_im" style="background-image: url('<?=$im?>'); display: <?=$style;?>;"> </li>
+                    <li class="sp_im" style="background-image: url('<?=$im?>'); display: <?=$style;?>;"> </li>
                 <?php 
                         endforeach; 
                 endif;
@@ -866,10 +866,10 @@ function sp_get_form()
                         
         	<div>
                 <?php if($name === 'sp_mail' || $soc['content']['title'] == 1): ?>  
-        		<input type="text" name="title" class="sp_style" value="<?=esc_html($title)?>" style="font-weight: 600; margin-bottom: 10px; width: 500px; height: 30px;" /><br />
+        		<input type="text" name="title" class="sp_style sp-post-title" value="<?=esc_html($title)?>" /><br />
                 <?php endif; ?>
                 <?php if($name === 'sp_mail' || $soc['content']['text'] == 1): ?>  
-        		<textarea name="text"  class="sp_style" style="width: 500px; height: 160px"><?=esc_html($text)?></textarea>
+        		<textarea name="text"  class="sp_style sp-post-text"><?=esc_html($text)?></textarea>
                 <?php endif; ?>
             </div>
             <?php if($soc['content']['page'] == 1 || $soc['name'] == 'Pinterest'): ?>
@@ -882,7 +882,7 @@ function sp_get_form()
                     ?>
                 </strong></div>
                     <br />
-        			<textarea id="sp_pages" name="page" class="sp_style" style="width: 500px; height: 70px;"><?=esc_html($page)?></textarea>
+        			<textarea id="sp_pages sp-post-pages" name="page" class="sp_style" ><?=esc_html($page)?></textarea>
                 </div>
         	</div>
             <?php endif; ?>            
@@ -890,7 +890,7 @@ function sp_get_form()
             
             <?php if($name !== 'sp_mail' && $soc['content']['desc'] == 1): ?>
             <div class="sp_cont_left"><strong><?php _e('Link Description','sp_text_area'); ?>:</strong></div> 
-            <textarea class="sp_style" name="desc" style="width: 100%; max-width: 710px; height: 50px"><?=esc_html($desc)?></textarea>
+            <textarea class="sp_style sp-post-desc" name="desc"><?=esc_html($desc)?></textarea>
             <?php endif; ?>        
         </div>
         <input type="hidden" name="image" value="<?=esc_html($th)?>" />
