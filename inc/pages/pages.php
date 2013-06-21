@@ -27,7 +27,7 @@ function sp_main_page()
      if(is_super_admin())
         $tabs[] = array('qw' =>'settings', 'name' => __('Settings','wnm_text_domain'));
      
-     $qarg = array('del' => false, 'type' => false, 'update' => false, 'error' => false,'action' => false,'aid' => false,'sid' => false,'gid' => false);
+     $qarg = array('del' => false, 'type' => false, 'update' => false, 'error' => false,'action' => false,'aid' => false,'sid' => false,'gid' => false, 'paged' => false);
 ?>
     <div id="wpbody">
 

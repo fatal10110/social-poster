@@ -101,10 +101,9 @@ class VK extends poster
      
         $post = 'act=post&al=1&attach1='.$attach.'&attach1_type=share&description='.$text.'&extra=0&extra_data=&facebook_export=&friends_only=&hash='.$hash[1].'&message=&note_title=&official=&photo_url='.$image.'&status_export=&title='.$title.'&to_id='.$toid.'&type=all&url='.$url;
         $r = $this->c->post('http://vk.com/al_wall.php',$post);
-
         sleep(5);
         
-        if(preg_match('#<div id="delete_post#',$r))
+        if(preg_match('#class="reply_fakebox_wrap"#',$r))
             return '1';
         
         return '0';

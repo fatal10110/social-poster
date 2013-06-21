@@ -43,7 +43,7 @@ class LINKEDIN extends poster
         
         $r = $this->c->get('http://www.linkedin.com/share?getPreview=&url='.$url,$headers);
         
-        if(preg_match('#<ticketStatusUrl>([^<]+?)</ticketStatusUrl>#',$r,$tik))
+        /*if(preg_match('#<ticketStatusUrl>([^<]+?)</ticketStatusUrl>#',$r,$tik))
         {
         
             $u = html_entity_decode ($tik[1]);
@@ -58,20 +58,15 @@ class LINKEDIN extends poster
             if(empty($u)) return;     
         
             $r = $this->c->get($u);
-        }
-        
-        preg_match('#data-entity-id="(\d+?)"#',$r,$eid);
+        }*/
+        preg_match('#data-entity-id="(\w+?)"#',$r,$eid);
         
         if(!isset($eid[1]))
             return '0';
         
-        $post = 'ajax=true&contentImageCount=1&contentImageIndex=0&contentImage='.$image.'&contentEntityID='.$eid[1].'&contentUrl='.$url.'&postText='.$desc.'&contentTitle='.$title.'&contentSummary='.$text.'&contentImageIncluded=true&%23=&postVisibility=EVERYONE&submitPost=&tetherAccountID=&tweetThisOn=false&postToMFeedDefaultPublic=true&csrfToken='.urlencode($csrf[1]).'&sourceAlias='.urlencode($sal[1]);
-        
-        
-        
-        $r = $this->c->post('http://www.linkedin.com/share?submitPost=',$post);
-        
-        sleep(5);
+        $post = 'ajax=true&contentImageCount=1&contentImageIndex=0&contentImage='.$image.'&contentEntityID='.$eid[1].'&contentUrl='.$url.'&postText='.$desc.'&contentUrl='.$url.'&contentImageIncluded=true&contentTitle='.$title.'&contentSummary='.$text.'&postVisibility2=EVERYONE&submitPost=&tetherAccountID=&tweetThisOn=false&postToMFeedDefaultPublic=true&csrfToken='.urlencode($csrf[1]).'&sourceAlias='.urlencode($sal[1]).'&goback=.nmp_*1_*1_*1_*1_*1_*1_*1_*1_*1_*1';
+
+        $r = $this->c->post('http://www.linkedin.com/nhome/submit-post',$post, $headers);
         
         if(preg_match('#<responseInfo>SUCCESS</responseInfo>#',$r))
             return '1';

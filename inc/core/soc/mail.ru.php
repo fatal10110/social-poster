@@ -33,21 +33,19 @@ class MAIL_RU extends poster
         $image = urlencode($this->image);
         
         $r = $this->c->get('http://my.mail.ru/');
-        sleep(10);
+        sleep(5);
         
         preg_match("#'mna': '(\d+?)',#",$r,$mna);
         preg_match("#'mnb': '-(\d+?)',#",$r,$mnb);
 
         $this->c->post('http://my.mail.ru/cgi-bin/connect/ajax','ajax_call=1&func_name=perl_fetch_connect_page&data='.$url.'&mna='.$mna[1].'&mnb=-'.$mnb[1].'&encoding=windows-1251');
         
-        sleep(15);
+        sleep(5);
         
-        $enc = urlencode('["'.$text.'", {"type": "share", "desc": "'.$title.'", "title": "'.$desc.'", "url": "'.$url.'", "image": "'.$image.'", "height": 50, "width": 50}]');
+        $enc = urlencode('["'.$desc.'", {"type": "share", "desc": "'.$text.'", "title": "'.$title.'", "url": "'.$url.'", "image": "'.$image.'", "height": 50, "width": 50}]');
         $r = $this->c->post('http://my.mail.ru/cgi-bin/my/ajax','ajax_call=1&func_name=micropost.send&data='.$enc.'&mna='.$mna[1].'&mnb=-'.$mnb[1].'&encoding=windows-1251');
         
-        sleep(20);
-        
-        if(preg_match('#share\?shareid=\d+#',$r))
+        if(preg_match('#"AjaxResponse","OK"#',$r))
             return '1';
         
         return '0';

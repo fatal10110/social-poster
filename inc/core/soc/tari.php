@@ -20,6 +20,7 @@ class TARI extends poster
     
     public function post()
     {
+        $this->url = 'http://wordpress.com';
         $url = urlencode($this->url);
         
         
