@@ -747,8 +747,9 @@ function sp_get_form()
                     'image' => $_POST['form_data']['image'],
                     'text' => $_POST['form_data']['text'],
                     'title' => $_POST['form_data']['title'],
-                    'page' => $_POST['form_data']['page'],
+                    'pages' => $_POST['form_data']['page'],
                     'post_on' => $_POST['form_data']['post_on'],
+                    
             );
             
             if($_POST['def'])
