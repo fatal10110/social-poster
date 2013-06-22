@@ -8,9 +8,11 @@
  
 function sp_writeable($file)
 {
+    if(!file_exists($file)) return false;
+        
     if(!is_writeable($file))
         if(!chmod($file,0777)) return false;
-    
+        
     return true;
 }
 
