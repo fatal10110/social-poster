@@ -110,10 +110,10 @@ function sp_on_init()
         
         if(!is_array($df)) $df = array();
     
-        if(!sp_writeable(SP_PDIR.'/inc')) $error[] = __('The "inc" folder is not writeable');
-        if(!sp_writeable(SP_PDIR.'/other')) $error[] = __('The "other" folder is not writeable');
-        if(!sp_writeable(SP_PDIR.'/other/cooks')) $error[] = __('The "cooks" folder is not writeable');
-        if(!sp_writeable(SP_PDIR.'/other/queue')) $error[] = __('The "queue" folder is not writeable');
+        if(!sp_writeable(SP_PDIR.'/inc/')) $error[] = __('The "inc" folder is not writeable');
+        if(!sp_writeable(SP_PDIR.'/other/')) $error[] = __('The "other" folder is not writeable');
+        if(!sp_writeable(SP_PDIR.'/other/cooks/')) $error[] = __('The "cooks" folder is not writeable');
+        if(!sp_writeable(SP_PDIR.'/other/queue/')) $error[] = __('The "queue" folder is not writeable');
         if(!function_exists('curl_init')) $error[] = __('cURL is not enabled');
         if(in_array('set_time_limit',$df)) $error[] = __('set_time_limit() function is disabled');
         if(in_array('ignore_user_abort',$df)) $error[] = __('ignore_user_abort() function is disabled');
@@ -413,12 +413,12 @@ function soc_start_posting($post_id,$post)
              }   
         
             $url = urldecode(get_permalink($post_id));
-            $title = $post->post_title;
-            $text = $post->post_content;
+            $title = $_POST['sp']['text'];
+            $text = $_POST['sp']['title'];
             $text = strip_shortcodes($text);
             $text = str_replace('&nbsp;','',$text);
-            
-            
+            $image = $_POST['sp']['image'];
+            /*
             if(!($image = wp_get_attachment_url(get_post_thumbnail_id($post_id))))
             {
                 preg_match ('|<img .*?src=[\'"](.*?)[\'"].*?/>|i', $text, $im);
@@ -427,12 +427,19 @@ function soc_start_posting($post_id,$post)
                 {
                     $image = $im[1];
                 } else {
-                    $arrImages = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
+                    $arrImages = get_children( array( 
+                                                    'post_parent' => $post_id, 
+                                                    'post_type' => 'attachment', 
+                                                    'post_mime_type' => 'image', 
+                                                    'orderby' => 'menu_order', 
+                                                    'order' => 'ASC', 
+                                                    'numberposts' => 999 )
+                    );
                     $arrKeys = array_keys($arrImages); 
                     $image = wp_get_attachment_url($arrKeys[0]);
                 }          
             }
-
+*/
             $guid = urlencode($post->guid);
             
             $path = PLUGINDIR.'/'.dirname( plugin_basename( __FILE__ ) );
@@ -464,7 +471,7 @@ function sp_add_post_box_setup($id, $post)
     if (isset($post->link_id) || !sp_user_rights())
         return;
 
-    add_meta_box('sp_social_poster', __('Social Poster', 'sp_text_domain'),'sp_add_post_box', null, 'side');
+    add_meta_box('sp_social_poster', __('Social Poster: Social values', 'sp_text_domain'),'sp_add_post_box', null, 'advanced', 'high');
 }
 
 /**
@@ -532,14 +539,13 @@ function sp_add_post_box($post)
         }
 
         $sql = 'SELECT `auto`,`id`,`login`,`soc` FROM `' . $wpdb->base_prefix . 'sp_accs` WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '"';
-
         $sql2 = 'SELECT `t1`.`auto`,`t1`.`id`,`t1`.`name`,`t2`.`name` AS `sname` FROM `' . $wpdb->base_prefix . 'sp_mail_groups` AS `t1`
                     INNER JOIN `' . $wpdb->base_prefix . 'sp_mail_services` AS `t2` ON `t1`.`service` = `t2`.`id` WHERE `blog` = "' . $blog_id . '" AND `user` = "' . $current_user->ID . '"';
 
         $accs = $wpdb->get_results($sql);
         $emails = $wpdb->get_results($sql2);
         
-
+        _social_value_form($post)
 ?>
 	<div id="sp-cat" class="categorydiv">
 		<ul id="cat-tabs" class="category-tabs">
@@ -566,10 +572,14 @@ function sp_add_post_box($post)
                             </label> <br />
                   <?php endforeach; ?>
 		</div>          
-                    <div id="sp_loadForm" style="display:none; cursor: default"> 
-                <img src="<?=plugins_url('load.gif', __FILE__)?>" />
-            </div> 
             
+</div>
+<div style="clear: both;"></div>
+<div><span class="sp-tip"><? _e('Tip', 'sp_text_domain'); ?>:</span> 
+<? _e('Choose the social view of the Post', 'sp_text_domain'); ?>   
+</div>
+<div><span class="sp-tip"><? _e('Tip', 'sp_text_domain'); ?>:</span> 
+<? _e('Click on the edit icon to get access to more advansed setting sepecified to each social', 'sp_text_domain'); ?>    
 </div>      
 <?php
     } else

@@ -20,8 +20,7 @@ class GOOGLE extends poster
         $post = 'continue=https%3A%2F%2Fplus.google.com%2F%3Fhl%3Dru%26gpsrc%3Dgplp0&service=oz&dsh='.$dsh[1].'&hl=ru&GALX='.$glax[1].'&pstMsg=1&dnConn=&checkConnection=youtube%3A124%3A1&checkedDomains=youtube&timeStmp=&secTok=&Email='.$login.'&Passwd='.$pass.'&signIn=%D0%92%D0%BE%D0%B9%D1%82%D0%B8&PersistentCookie=yes&rmShown=1';
 
         $r = $this->c->post('https://accounts.google.com/ServiceLoginAuth',$post);
-        
-        file_put_contents('login.html',$r);
+
     }
     
     public function post()

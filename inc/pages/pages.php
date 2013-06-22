@@ -394,10 +394,10 @@ function sp_settings_page()
     </form>
     </p>
     
-    <span class="sp-tip">Tip: </span>
+    <span class="sp-tip"><? _e('Tip', 'sp_text_domain'); ?>: </span>
     <div id="sp_demo_radio">
-        <input type="radio" id="sp_demo_radio1" checked="checked" /><label for="sp_demo_radio1">Checked</label>
-        <input type="radio" id="sp_demo_radio2"/><label for="sp_demo_radio2">Not Checked</label>
+        <input type="radio" id="sp_demo_radio1" checked="checked" /><label for="sp_demo_radio1"><? _e('Checked', 'sp_text_domain'); ?></label>
+        <input type="radio" id="sp_demo_radio2"/><label for="sp_demo_radio2"><? _e('Not Checked', 'sp_text_domain'); ?></label>
     </div>
     <script>
         jQuery(document).ready(function($) {
@@ -452,7 +452,151 @@ function sp_svc_page()
     $myListTable = new SP_Services_List_Table();
     $myListTable->prepare_items(); 
     $myListTable->display(); 
+}
 
-  
+function _social_value_form($post, $soc = array(), $name = '', $params = array() ,$image = false,$ajax = false)
+{
+    if(empty($params)){
+        $params = array(
+            'title' => $post->post_title,
+            'text' => $post->post_content
+        );
+    }
+    
+    extract($params);
+    
+    $text = strip_shortcodes($text);
+    $text = str_replace('&nbsp;','',$text);
+    $text = strip_tags($text);
+    
+    $images  = array();
+                
+    if(($th = wp_get_attachment_url(get_post_thumbnail_id($post->ID))))
+    {
+        if($image === false) $image = $th;
+        $images[] = $th;
+    }
+                
+    preg_match_all ('|<img .*?src=[\'"](.*?)[\'"].*?/>|i', $post->post_content, $im);
+    
+    if(is_array($im[1]))
+    {
+        
+        foreach($im[1] as $url)
+        {
+            if(!in_array($url,$images))
+            {
+                if($image === false) $image = $url;
+                $images[] = $url;
+            }
+        }
+    }            
+                      
+    $arrImages = get_children( array( 
+                                    'post_parent' => (int)$post->ID, 
+                                    'post_type' => 'attachment', 
+                                    'post_mime_type' => 'image', 
+                                    'orderby' => 'menu_order', 
+                                    'order' => 'ASC', 
+                                    'numberposts' => 999 ) 
+    );
+                
+    $arrKeys = array_keys($arrImages); 
+                
+    foreach($arrKeys as $att)
+    {
+        $url = wp_get_attachment_url($att);
+                    
+        if(!in_array($url,$images))
+        {
+            if($image === false) $image = $url;
+            $images[] = $url;
+        }
+    }    
+    
+    
+    
+    $wrapper_class = '';
+    
+    if($ajax) $wrapper_class = ($soc['content']['page'] == 1 || $soc['content']['image'] == 1) ? 'sp-big' : 'sp-small';
+    
+    if($image === '' || empty($images)) $none_style = 'block';
+    else $none_style = 'none';
+            
+    ob_start();
+    ?>
+    <ul class="sp_im">
+        <li style="display: <?=$none_style;?>;" > 
+            <div class="sp_noim"><?php _e('No Image','sp_text_domain'); ?></div>
+        </li>  
+        <?php if(!empty($images)) : ?>
+            <?php foreach($images as $key => $im) : ?>
+                <?php             
+                    if($none_style == 'none' && ((!isset($th) && !$image) || (!empty($image) && $image == $im)))
+                    {
+                        $style = 'block';
+                        $th = $im;
+                    } else $style = 'none';
+                ?>                        
+                <li class="sp_im" style="background-image: url('<?=$im?>'); display: <?=$style;?>;"> </li>                
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </ul>
+        <div class="sp_im_nav">
+            <a href="#" class="sp_im_butt sp_im_prev">&#8249;</a>
+            <a href="#" class="sp_im_butt sp_im_next">&#8250;</a>          
+        </div>
+    <?php
+    $ims = ob_get_clean();    
+    ?>
+    <div class="sp-post-popup-wrapper <?=$wrapper_class?>">
+        <div class="sp-im-wrapper">
+            <?=($soc['content']['image'] == 1 || !$ajax) ? $ims : '' ?>
+        </div>
+        <div class="sp-text-wrapp">
+        <?php if($name === 'sp_mail' || $soc['content']['title'] == 1 || !$ajax) : ?>  
+            <div><input name="sp[title]" type="text" class="sp_style sp-post-title" value="<?=esc_html($title)?>" /></div>
+        <?php endif; ?>
+        <?php if($name === 'sp_mail' || $soc['content']['text'] == 1 || !$ajax) : ?>  
+            <div><textarea name="sp[text]"  class="sp_style sp-post-text"><?=esc_html($text)?></textarea></div>
+        <?php endif; ?>
+        </div>
+        <?php if($soc['name'] != 'Pinterest') : ?>
+        <div style="clear: both;"></div>  
+        <?php endif; ?>
+        <?php if($ajax && ($soc['content']['page'] == 1 || $soc['name'] == 'Pinterest')): ?>
+        
+        	<div  style="margin-top: 10px;">
+                <?php if($soc['name'] != 'Pinterest') : ?>
+                <div style="float: left; width: 200px;">
+         			<div  style="float: left;"><strong><?php _e('Post On','sp_text_area'); ?>:</strong></div> 
+                    <div id="sp_post_on_butt">
+                        <input type="radio" value="1" id="sp_post_on_butt1" <?php echo ($post_on == '1') ? 'checked="checked"' : '' ?> name="sp[post_on]" /><label for="sp_post_on_butt1"><?php _e('Pages','sp_text_domain') ?></label>
+                        <input type="radio" value="0" id="sp_post_on_butt2" <?php echo ($post_on != '1') ? 'checked="checked"' : '' ?> name="sp[post_on]" /><label for="sp_post_on_butt2"><?php _e('Profile','sp_text_domain') ?></label>
+                    </div>
+                </div>
+                <?php endif; ?>
+        		<div style="margin-left: 10px; float: left;">
+                    <div  style="float: left;">
+                        <strong>
+                			<?php 
+                                if ($soc['name'] == 'Pinterest') _e('Board Names:','sp_text_domain');
+                                elseif($ajax) _e('Page URL:','sp_text_domain');
+                            ?>
+                        </strong>
+                    </div>
+           			<textarea class="<?=($soc['name'] == 'Pinterest') ? 'sp_boards' : 'sp_pages'?> sp-post-pages" name="sp[page]" class="sp_style" ><?=esc_html($pages)?></textarea>
+                </div>
+                <div style="clear: both;"></div>
+        	</div>
+         <?php endif; ?>                               
+         <?php if($name !== 'sp_mail' && $soc['content']['desc'] == 1): ?>
+         <div style="float: left;"><strong><?php _e('Link Description','sp_text_area'); ?>:</strong></div> 
+         <textarea class="sp_style sp-post-desc" name="sp[desc]"><?=esc_html($desc)?></textarea>
+         <?php endif; ?>  
+         <input type="hidden" name="sp[image]" value="<?=esc_html($th)?>" />      
+    </div>
+    
+    <?php
 }
 ?>

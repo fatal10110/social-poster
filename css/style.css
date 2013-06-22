@@ -57,12 +57,13 @@ form #sp_post_on_butt input[type="radio"]{position:relative;top:3px;}
 }
 
 div.sp_cont_left {
-     width: 150px;
      float: left;
      font-weight: 200;
-     line-height: 24px;
+     line-height: 30px;
      font-size: 12px;
      font-family: HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', sans-serif;
+	 margin-right: 10px;
+	 width: 165px;
 }
 
 #sp_error {
@@ -74,7 +75,7 @@ div.sp_cont_left {
 	
 }
 
-#sp_noim {
+.sp_noim {
 	width: 200px;
 	height: 200px;
 	text-align: center;
@@ -176,19 +177,20 @@ table.wp-list-table td.account.column-account {
 	width: 500px;
 }
 
+
 .sp-post-popup-wrapper .sp-im-wrapper {
 	float: left; 
 	width: 200px;  
 	margin-right: 10px;
 }
 
-#sp_im {
+.sp_im {
 	list-style-type: none; 
 	padding: 0px; 
 	margin: 0px;
 }
 
-#sp_im li {
+.sp_im li {
 	background-repeat: no-repeat; 
 	background-position: center center; 
 	background-size: contain;
@@ -199,6 +201,76 @@ table.wp-list-table td.account.column-account {
 .sp_im_nav {
 	text-align: center; 
 	height: 10px; 
-	width: 200px; 
 	margin: 10px 0px 20px 0px;
+}
+
+.sp-post-popup-wrapper .sp-post-title {
+	font-weight: 600;
+	margin-bottom: 10px;
+	width: 500px;
+	height: 30px;
+}
+.sp-post-popup-wrapper .sp-post-text {
+	width: 500px;
+	height: 160px
+}
+
+.sp-post-popup-wrapper .sp-post-desc {
+	width: 100%;
+	max-width: 710px;
+	height: 50px
+}
+
+.sp-post-popup-wrapper .sp_pages {
+	width: 430px;
+	height: 70px;
+}
+
+.sp-post-popup-wrapper .sp_boards { 
+	width: 390px;
+	height: 70px;
+}
+
+#sp-cat {
+	width: 270px;
+	float: left;
+	margin-left: 1%;
+}
+
+#sp-social {
+	height: 180px;
+}
+
+.postbox  .sp-post-popup-wrapper input,
+.postbox  .sp-post-popup-wrapper textarea {
+	width: 28em;
+	min-width: 300px;
+	font-size: 14px;
+}
+
+.postbox  .sp-post-popup-wrapper {
+	float: left;
+	margin-top: 10px;
+}
+
+.postbox  .sp-post-popup-wrapper .sp-text-wrapp {
+	float: left;
+}
+
+.postbox  .sp-post-popup-wrapper  .sp_noim{
+	width: 150px;
+	height: 150px;
+	line-height: 150px;
+}
+.postbox  .sp-post-popup-wrapper  li{
+	width: 152px;
+	height: 152px;
+}
+
+.postbox  .sp-post-popup-wrapper .sp-im-wrapper {
+	width: 150px;
+}
+
+#sp_popup_wrapper .ui-buttonset .ui-button{
+	margin-right: -1.2em;
 }
