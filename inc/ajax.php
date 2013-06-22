@@ -451,7 +451,7 @@ function sp_acc_form()
                     </li>
 
                     <li class="sp_pages_box" id="sp_pages_field" style="display: <?=($SP_SOCIALS[$user['soc']]['content']['page'] == 1 || $SP_SOCIALS[$user['soc']]['prefix'] === 'pint') ? 'block' : 'none';?>;">
-                        <div class="sp_cont_left"><strong><?php _e('Page urls / Board names') ?>:</strong><br />
+                        <div class="sp_cont_left"><strong><?php _e('Page urls / Board names') ?>:</strong>
                             <span style="margin-left: 5px;" class="description">
                                 <?php _e('Each page from new line','sp_text_domain') ?>
                             </span>
@@ -705,6 +705,8 @@ function sp_get_form()
 {
     global $wpdb,$blog_id,$current_user;
     
+    if(!isset($_POST['form_data']) || !is_array($_POST['form_data'])) die();
+    
     $_POST = array_map('sp_strip', $_POST);
     
     $text = '';
@@ -740,23 +742,22 @@ function sp_get_form()
             
             if(!$the_post) die(__('Error occured','sp_text_domain'));
             
-            $text = $the_post->post_content;
-            $title = $the_post->post_title;
+            $params = array(
+                    'desc' => $_POST['form_data']['desc'],
+                    'image' => $_POST['form_data']['image'],
+                    'text' => $_POST['form_data']['text'],
+                    'title' => $_POST['form_data']['title'],
+                    'page' => $_POST['form_data']['page'],
+                    'post_on' => $_POST['form_data']['post_on'],
+            );
             
-            if(isset($_POST['form_data']) && is_array($_POST['form_data'])) 
-            {
-                $desc = $_POST['form_data']['desc'];
-                $image = $_POST['form_data']['image'];
-                $text = $_POST['form_data']['text'];
-                $title = $_POST['form_data']['title'];
-                $page = $_POST['form_data']['page'];
-                $post_on = $_POST['form_data']['sp_post_on'];
-
-            } else {
-                $text = ($name !== 'sp_mail') ? strip_tags($text) : $text;
+            if($_POST['def'])
+            {                
+                
+                $params['text'] = ($name !== 'sp_mail') ? strip_tags($params['text']) : $params['text'];
                 
                 if(isset($soc['content']['content']))
-                    $text = str_replace('{TITLE}',$title,$soc['content']['content']);
+                    $params['text'] = str_replace('{TITLE}', $params['title'],$soc['content']['content']);
                 
                 if($name === 'sp_soc')
                 {
@@ -765,135 +766,20 @@ function sp_get_form()
                     
                     if(!empty($data->pages))
                     {
-                        $pages = unserialize($data->pages);
-                                                
-                        $page = is_array($pages) ? esc_html(implode("\r\n",$pages)) : '';
-                    } else 
-                        $page = '';
+                        $params['pages'] = unserialize($data->pages);
+                        $params['pages'] = is_array($params['pages']) ? esc_html(implode("\r\n",$params['pages'])) : '';
+                        
+                    } else $params['pages'] = '';
                     
-                    $post_on = $data->post_on;
-                }
-                
-            }
-            
-            $text = strip_shortcodes($text);
-            $text = str_replace('&nbsp;','',$text);
-            
-            if($soc['content']['image'] == 1)
-            {
-                $images  = array();
-                
-                if(($th = wp_get_attachment_url(get_post_thumbnail_id($_POST['pid']))))
-                    $images['th'] = $th;
-                
-                preg_match_all ('|<img .*?src=[\'"](.*?)[\'"].*?/>|i', $the_post->post_content, $im);
-    
-                if(is_array($im[1]))
-                {
-                    foreach($im[1] as $url)
-                    {
-                        if(!in_array($url,$images))
-                            $images[] = $url;
-                    }
-                }            
-                      
-                $arrImages = get_children( array( 
-                                    'post_parent' => (int)$_POST['pid'], 
-                                    'post_type' => 'attachment', 
-                                    'post_mime_type' => 'image', 
-                                    'orderby' => 'menu_order', 
-                                    'order' => 'ASC', 
-                                    'numberposts' => 999 ) 
-                );
-                
-                $arrKeys = array_keys($arrImages); 
-                
-                foreach($arrKeys as $att)
-                {
-                    $url = wp_get_attachment_url($att);
-                    
-                    if(!in_array($url,$images)) $images[] = $url;
+                    $params['post_on'] = $data->post_on;
                 }
             }
-
-            if((isset($_POST['form_data']) && empty($image)) || empty($images)) $none_style = 'block';
-            else $none_style = 'none';
+            
+            $image = $_POST['form_data']['image'];
             
             ?>
-            <form id="frm" >
-            <div class="sp-post-popup-wrapper <?=($soc['content']['page'] == 1 || $soc['content']['image'] == 1) ? 'sp-big' : 'sp-small' ?>">
-            <div class="sp-im-wrapper">
-            <?php if($soc['content']['image'] == 1): ?>
-                <ul id="sp_im">
-                    <li style="display: <?=$none_style;?>;" > 
-                        <div id="sp_noim"><?php _e('No Image','sp_text_domain'); ?></div>
-                    </li>
-                <?php
-                if(!empty($images)):
-                        foreach($images as $key => $im):
-                        
-                            if(($none_style == 'none' && empty($image) && empty($th)) || (!empty($image) && $im == $image))
-                            {
-                                $style = 'block';
-                                $th = $im;
-                            } else 
-                                $style = 'none';
-                                
-                            
-                    ?>                        
-                    <li class="sp_im" style="background-image: url('<?=$im?>'); display: <?=$style;?>;"> </li>
-                <?php 
-                        endforeach; 
-                endif;
-                ?>
-                </ul>   
-                <div class="sp_im_nav">
-                    <a href="#" class="sp_im_butt sp_im_prev" id="sp_im_prev">&#8249;</a>
-                    <a href="#" class="sp_im_butt sp_im_next" id="sp_im_next">&#8250;</a>          
-                </div>
-            <?php endif; ?>
-            
-            <?php if($soc['content']['page'] == 1): ?>
-      		    <div style="height: 50px;">
-            			<div class="sp_cont_left"><strong><?php _e('Post On','sp_text_area'); ?>:</strong></div> 
-                        <div id="sp_post_on_butt">
-                         <input type="radio" value="1" id="sp_post_on_butt1" <?php echo ($post_on == '1') ? 'checked="checked"' : '' ?> name="sp_post_on" /><label for="sp_post_on_butt1"><?php _e('Pages','sp_text_domain') ?></label>
-                         <input type="radio" value="0" id="sp_post_on_butt2" <?php echo ($post_on != '1') ? 'checked="checked"' : '' ?> name="sp_post_on" /><label for="sp_post_on_butt2"><?php _e('Profile','sp_text_domain') ?></label>
-                        </div>
-          		</div>
-            <?php endif; ?> 
-            </div>
-                        
-        	<div>
-                <?php if($name === 'sp_mail' || $soc['content']['title'] == 1): ?>  
-        		<input type="text" name="title" class="sp_style sp-post-title" value="<?=esc_html($title)?>" /><br />
-                <?php endif; ?>
-                <?php if($name === 'sp_mail' || $soc['content']['text'] == 1): ?>  
-        		<textarea name="text"  class="sp_style sp-post-text"><?=esc_html($text)?></textarea>
-                <?php endif; ?>
-            </div>
-            <?php if($soc['content']['page'] == 1 || $soc['name'] == 'Pinterest'): ?>
-        	<div  style="margin-top: 10px;">
-        		<div>
-                <div class="sp_cont_left"><strong>
-        			<?php 
-                        if ($soc['name'] == 'Pinterest') _e('Board Names:','sp_text_domain');
-                        else _e('Page URL:','sp_text_domain');
-                    ?>
-                </strong></div>
-                    <br />
-        			<textarea id="sp_pages sp-post-pages" name="page" class="sp_style" ><?=esc_html($page)?></textarea>
-                </div>
-        	</div>
-            <?php endif; ?>            
-            <div style="clear: both;" />
-            
-            <?php if($name !== 'sp_mail' && $soc['content']['desc'] == 1): ?>
-            <div class="sp_cont_left"><strong><?php _e('Link Description','sp_text_area'); ?>:</strong></div> 
-            <textarea class="sp_style sp-post-desc" name="desc"><?=esc_html($desc)?></textarea>
-            <?php endif; ?>        
-        </div>
-        <input type="hidden" name="image" value="<?=esc_html($th)?>" />
+        <form id="frm" >
+            <?php _social_value_form($the_post, $soc, $name, $params ,$image, 1) ?>
         </form>
         <script>
           

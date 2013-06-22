@@ -70,6 +70,9 @@ var SP_core = {
             
             //On editing post
             jQuery(document).on('click','.sp_edit_post', SP_core.edit_post);
+			
+			//Changing post thumbnail
+			jQuery(document).on('click','.sp_im_butt', SP_core.change_image);
             
             
     },
@@ -141,57 +144,65 @@ var SP_core = {
                 
         if(edited_acc.hasClass('sp_soc')) name = 'sp_soc';
         else name = 'sp_mail';
-					
-		var post_to_account = jQuery('#post > input[name^="' + name + '[' + acc_id + ']"]');
+		
+		var reg = /^.+\[\d+\]\[(.+)\]$/;
+		var def = '0'; //Default values
+		var post_data = jQuery('#post > input[name^="' + name + '[' + acc_id + ']"]');
+		
+		if(!post_data.length)
+		{
+			post_data = jQuery('#post .sp-post-popup-wrapper').find('input[name^="sp\["], textarea[name^="sp\["]');
+			
+			def = '1';
+			reg = /^.+\[(.+)\]$/;
+		}
+		
 		var data = {
                     "id": acc_id,
 					"pid": pid,
 					"action": 'sp_get_form',
-                    "type": name					
+                    "type": name,
+					"def": def
 	               };
+				   
 		var popup_buttons = {};
 		popup_buttons[sp_lang.cancel] = function() { jQuery(this).dialog("close"); }
 		
-		if(post_to_account.length > 0)
-		{//Edit exist edition
+		if(!post_data.length) return false;
 			
-			data['form_data']  = {};
+		data['form_data']  = {};
 			
-            post_to_account.each(function() {
+        post_data.each(function() {
 					var obj = jQuery(this);
-					var key = obj.attr('name').replace(/^.+\[\d+\]\[(.+)\]$/,'$1');
-					
+					var key = obj.attr('name').replace(reg,'$1');
 					data['form_data'][key] = obj.val();
-			});
+		});
 			
-			
-            popup_buttons[sp_lang.save] = function() { SP_core.set_edition(name, acc_id); jQuery(this).dialog("close"); }
-            popup_buttons[sp_lang.del] = function() { SP_core.remove_edition(name, acc_id); jQuery(this).dialog("close"); }	
-		
-        } else //New post edition
-
-            popup_buttons[sp_lang.save] = function() { SP_core.set_edition(name, acc_id); jQuery(this).dialog("close"); }
+		if(def == '0')
+		{
+			popup_buttons[sp_lang.save] = function() { SP_core.set_edition(name, acc_id); jQuery(this).dialog("close"); }
+			popup_buttons[sp_lang.del] = function() { SP_core.remove_edition(name, acc_id); jQuery(this).dialog("close"); }	
+		} else //New post edition 
+			popup_buttons[sp_lang.save] = function() { SP_core.set_edition(name, acc_id); jQuery(this).dialog("close"); }
+        
             
-            SP_core.popup_form_obj.dialog({
-                title: title,
-                height: 'auto',
-                width: 'auto',
-                buttons: SP_core.loadButton,
-                modal: true,
-                open: function() {
-                    SP_core.popup_open();
+        SP_core.popup_form_obj.dialog({
+            title: title,
+            height: 'auto',
+            width: 'auto',
+            buttons: SP_core.loadButton,
+            modal: true,
+            open: function() {
+                SP_core.popup_open();
                     
-                    jQuery.post(ajaxurl , data , function(response){ //Get the from from the server
-                            SP_core.popup_form_obj.html(response);
-                            SP_core.popup_form_obj.dialog({ position: { my: "center", at: "center", of: window }, buttons: popup_buttons });
-							
-							//Changing post thumbnail
-							jQuery(document).on('click','.sp_im_butt', SP_core.change_image);
-                    });  
-                },
+                jQuery.post(ajaxurl , data , function(response){ //Get the from from the server
+                        SP_core.popup_form_obj.html(response);
+                        SP_core.popup_form_obj.dialog({ position: { my: "center", at: "center", of: window }, buttons: popup_buttons });
+                });  
+            },
 				
-                close: SP_core.popup_close
-			});
+            close: SP_core.popup_close
+		});
 			
 		return false;
     },
@@ -211,12 +222,13 @@ var SP_core = {
     },
 	
 	change_image: function() {
-			var images = jQuery('#sp_im li');	
+			var wrapper = jQuery(this).parents('.sp-post-popup-wrapper');	
+			var images = wrapper.find('.sp-im-wrapper li');
 			
 			if(images.length <= 1) return false;
 
-			var imageInput = jQuery('#frm input[name="image"]');
-			var current = jQuery('#sp_im li:visible');
+			var imageInput = wrapper.find('input[name="sp[image]"]');
+			var current = wrapper.find('.sp-im-wrapper li:visible');
 			var toShow;
 			
 			if(jQuery(this).hasClass('sp_im_next')) toShow = (current.index() == images.length - 1) ? images.first() : current.next('li:hidden');
@@ -237,7 +249,7 @@ var SP_core = {
         var post = jQuery('#post');
 		
 		for (input in form_array) {
-            var key = form_array[input].name;
+            var key = form_array[input].name.replace(/^.+\[(.+)\]$/,'$1');
             var new_value = form_array[input].value;
             var exist = post.find('input[name="' + name + '[' + acc_id + '][' + key + ']"]');
             
