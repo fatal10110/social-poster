@@ -2,35 +2,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Social Poster\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-27 20:47+0200\n"
-"PO-Revision-Date: 2012-09-27 20:51+0200\n"
+"POT-Creation-Date: 2013-06-22 14:24+0200\n"
+"PO-Revision-Date: 2013-06-22 14:25+0200\n"
 "Last-Translator: Artur K. <none>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../soc_posting.php:45
-msgid "Administrator"
+#: ../soc_posting.php:54
+msgid "Are you sure you want to perform this action?"
 msgstr ""
 
-#: ../soc_posting.php:45
-#: ../soc_posting.php:53
-msgid "specified users"
+#: ../soc_posting.php:55
+msgid "Add"
 msgstr ""
 
-#: ../soc_posting.php:46
-msgid "Editor"
+#: ../soc_posting.php:56
+msgid "Edit"
 msgstr ""
 
-#: ../soc_posting.php:47
-msgid "Author"
+#: ../soc_posting.php:57
+msgid "Alert"
 msgstr ""
 
-#: ../soc_posting.php:53
-msgid "Network Administrator"
+#: ../soc_posting.php:58
+msgid "Delete"
+msgstr ""
+
+#: ../soc_posting.php:59
+msgid "Cancel"
+msgstr ""
+
+#: ../soc_posting.php:60
+msgid "Error"
+msgstr ""
+
+#: ../soc_posting.php:61
+msgid "OK"
+msgstr ""
+
+#: ../soc_posting.php:62
+msgid "Save"
 msgstr ""
 
 #: ../soc_posting.php:113
@@ -69,481 +84,588 @@ msgstr ""
 msgid "Allow user to use the Social Poster plugin."
 msgstr ""
 
-#: ../soc_posting.php:401
+#: ../soc_posting.php:373
 msgid "You have exceeded the limit of maximum number of accounts for posting."
 msgstr ""
 
-#: ../soc_posting.php:464
-#: ../soc_posting.php:598
+#: ../soc_posting.php:453
+#: ../soc_posting.php:586
 msgid "The plugin is busy now, try again later."
 msgstr ""
 
-#: ../soc_posting.php:489
-msgid "Social Poster"
+#: ../soc_posting.php:474
+msgid "Social Poster: Social values"
 msgstr ""
 
-#: ../soc_posting.php:527
+#: ../soc_posting.php:512
 msgid "The plugin is busy and not recommended for use now."
 msgstr ""
 
-#: ../soc_posting.php:547
+#: ../soc_posting.php:532
 msgid "You exceeded the limit of maximum number of accounts for posting"
 msgstr ""
 
-#: ../soc_posting.php:551
+#: ../soc_posting.php:536
 #, php-format
 msgid "You can post maximum on %d% social accounts now"
 msgstr ""
 
-#: ../soc_posting.php:568
+#: ../soc_posting.php:552
 msgid "Socials"
 msgstr ""
 
-#: ../soc_posting.php:569
+#: ../soc_posting.php:553
 msgid "Email Groups"
 msgstr ""
 
-#: ../soc_posting.php:577
-#: ../soc_posting.php:587
-msgid "Edit"
+#: ../soc_posting.php:578
+#: ../soc_posting.php:581
+msgid "Tip"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:36
-#: ../inc/pages/group_list.class.php:29
-msgid "ID"
+#: ../soc_posting.php:579
+msgid "Choose the social view of the Post"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:37
-#: ../inc/pages/group_list.class.php:32
-msgid "Account"
+#: ../soc_posting.php:582
+msgid "Click on the edit icon to get access to more advansed setting sepecified to each social"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:38
-msgid "Social"
+#: ../inc/ajax.php:53
+#: ../inc/ajax.php:56
+#: ../inc/ajax.php:59
+#: ../inc/ajax.php:967
+#: ../inc/ajax.php:970
+#: ../inc/ajax.php:1002
+#: ../inc/ajax.php:1005
+msgid "Error occurred"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:43
-#: ../inc/pages/group_list.class.php:39
-msgid "In Blog"
+#: ../inc/ajax.php:124
+#: ../inc/ajax.php:185
+msgid "Enter the group name field please"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:45
-#: ../inc/pages/group_list.class.php:41
-msgid "Added By"
+#: ../inc/ajax.php:128
+#: ../inc/ajax.php:189
+msgid "Fill the account field please"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:158
-#: ../inc/pages/acc_list.class.php:201
-#: ../inc/pages/group_list.class.php:157
-#: ../inc/pages/group_list.class.php:193
-msgid "Delete"
+#: ../inc/ajax.php:132
+#: ../inc/ajax.php:201
+#: ../inc/ajax.php:498
+#: ../inc/ajax.php:574
+msgid "Passwords do not match"
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:202
-#: ../inc/pages/group_list.class.php:194
-msgid "Cancel All Filters"
+#: ../inc/ajax.php:136
+#: ../inc/ajax.php:193
+msgid "Please add emails to group."
 msgstr ""
 
-#: ../inc/pages/acc_list.class.php:214
-msgid "No accounts found."
+#: ../inc/ajax.php:174
+#: ../inc/ajax.php:893
+msgid "Group has been updated"
 msgstr ""
 
-#: ../inc/pages/group_list.class.php:30
-msgid "Name"
+#: ../inc/ajax.php:177
+#: ../inc/ajax.php:238
+msgid "Group with the same name already exists"
 msgstr ""
 
-#: ../inc/pages/group_list.class.php:31
+#: ../inc/ajax.php:179
+#: ../inc/ajax.php:240
+msgid "Mail service do not exists"
+msgstr ""
+
+#: ../inc/ajax.php:197
+msgid "Please enter the account's password"
+msgstr ""
+
+#: ../inc/ajax.php:205
+msgid "Please choose a mail service."
+msgstr ""
+
+#: ../inc/ajax.php:236
+msgid "Group has been created"
+msgstr ""
+
+#: ../inc/ajax.php:288
+msgid "Service account"
+msgstr ""
+
+#: ../inc/ajax.php:292
+#: ../inc/ajax.php:394
+msgid "Password"
+msgstr ""
+
+#: ../inc/ajax.php:296
+#: ../inc/ajax.php:398
+msgid "Confirm Password"
+msgstr ""
+
+#: ../inc/ajax.php:300
+msgid "Group name"
+msgstr ""
+
+#: ../inc/ajax.php:304
+#: ../inc/ajax.php:436
+msgid "Automatization"
+msgstr ""
+
+#: ../inc/ajax.php:304
+#: ../inc/ajax.php:436
+msgid "if set to \"Enabled\" all your posts will be posted to the account automatically"
+msgstr ""
+
+#: ../inc/ajax.php:313
 msgid "Service"
 msgstr ""
 
-#: ../inc/pages/group_list.class.php:206
-msgid "No groups found."
+#: ../inc/ajax.php:327
+msgid "Emails"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:40
-#: ../inc/pages/soc_logs_list.class.php:40
-msgid "Post"
+#: ../inc/ajax.php:329
+msgid "Each email from new line"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:43
-msgid "Group"
+#: ../inc/ajax.php:390
+msgid "Login"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:44
-#: ../inc/pages/soc_logs_list.class.php:44
-msgid "Status"
+#: ../inc/ajax.php:402
+msgid "Social"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:45
-#: ../inc/pages/soc_logs_list.class.php:45
-msgid "Date"
+#: ../inc/ajax.php:446
+msgid "Post on"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:163
-#: ../inc/pages/soc_logs_list.class.php:171
-msgid "View"
+#: ../inc/ajax.php:448
+msgid "Pages"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:165
-#: ../inc/pages/soc_logs_list.class.php:173
-msgid "Only This Post"
+#: ../inc/ajax.php:449
+msgid "Profile"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:196
-#: ../inc/pages/soc_logs_list.class.php:211
-msgid "Fail"
+#: ../inc/ajax.php:454
+msgid "Page urls / Board names"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:197
-msgid "Sent"
+#: ../inc/ajax.php:456
+msgid "Each page from new line"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:198
-#: ../inc/pages/soc_logs_list.class.php:213
-msgid "Processing"
+#: ../inc/ajax.php:473
+#: ../inc/ajax.php:636
+msgid "You exceeded the limit of maximum number of accounts"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:199
-#: ../inc/pages/soc_logs_list.class.php:214
-msgid "In Queue"
+#: ../inc/ajax.php:494
+msgid "Fill the login field please"
 msgstr ""
 
-#: ../inc/pages/mail_logs_list.class.php:228
-#: ../inc/pages/soc_logs_list.class.php:243
-msgid "No logs found."
+#: ../inc/ajax.php:502
+#: ../inc/ajax.php:578
+msgid "Please choose a social network."
 msgstr ""
 
+#: ../inc/ajax.php:506
+#: ../inc/ajax.php:582
+msgid "Please fill the board names"
+msgstr ""
+
+#: ../inc/ajax.php:562
+msgid "Account already exists"
+msgstr ""
+
+#: ../inc/ajax.php:566
+msgid "Account has been successfully modified"
+msgstr ""
+
+#: ../inc/ajax.php:570
+#: ../inc/ajax.php:865
+#: ../inc/ajax.php:904
+msgid "All fields are required"
+msgstr ""
+
+#: ../inc/ajax.php:640
+msgid "Account has been added"
+msgstr ""
+
+#: ../inc/ajax.php:681
+msgid "Error occurred1"
+msgstr ""
+
+#: ../inc/ajax.php:684
+msgid "Error occurred2"
+msgstr ""
+
+#: ../inc/ajax.php:743
+msgid "Error occured"
+msgstr ""
+
+#: ../inc/ajax.php:822
+msgid "Service name"
+msgstr ""
+
+#: ../inc/ajax.php:828
+msgid "Smpt"
+msgstr ""
+
+#: ../inc/ajax.php:834
+msgid "Port"
+msgstr ""
+
+#: ../inc/ajax.php:840
+msgid "SSL"
+msgstr ""
+
+#: ../inc/ajax.php:842
+msgid "Yes"
+msgstr ""
+
+#: ../inc/ajax.php:843
+msgid "No"
+msgstr ""
+
+#: ../inc/ajax.php:896
+#: ../inc/ajax.php:929
+msgid "Mail service already exists"
+msgstr ""
+
+#: ../inc/ajax.php:927
+msgid "Service has been added"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:28
+#: ../inc/pages/acc_list.class.php:43
+#: ../inc/pages/group_list.class.php:41
+#: ../inc/pages/mail_logs_list.class.php:46
+#: ../inc/pages/soc_logs_list.class.php:46
+msgid "Account"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:29
 #: ../inc/pages/pages.php:22
 msgid "Accounts"
 msgstr ""
 
-#: ../inc/pages/pages.php:23
-msgid "Add account"
+#: ../inc/pages/acc_list.class.php:42
+#: ../inc/pages/group_list.class.php:38
+msgid "ID"
 msgstr ""
 
-#: ../inc/pages/pages.php:24
+#: ../inc/pages/acc_list.class.php:49
+#: ../inc/pages/group_list.class.php:48
+#: ../inc/pages/mail_logs_list.class.php:56
+#: ../inc/pages/soc_logs_list.class.php:56
+msgid "In Blog"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:51
+#: ../inc/pages/group_list.class.php:50
+#: ../inc/pages/mail_logs_list.class.php:58
+#: ../inc/pages/soc_logs_list.class.php:58
+msgid "Added By"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:131
+#: ../inc/pages/acc_list.class.php:175
+#: ../inc/pages/acc_list.class.php:188
+#: ../inc/pages/acc_list.class.php:200
+#: ../inc/pages/acc_list.class.php:207
+msgid "Click to activate the filter"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:169
+msgid "Edit Account"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:219
+msgid "Add Account"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:220
+msgid "Delete Accounts"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:221
+#: ../inc/pages/group_list.class.php:210
+#: ../inc/pages/pages.php:96
+msgid "Cancel All Filters"
+msgstr ""
+
+#: ../inc/pages/acc_list.class.php:255
+msgid "No accounts found."
+msgstr ""
+
+#: ../inc/pages/group_list.class.php:29
+#: ../inc/pages/mail_logs_list.class.php:47
+msgid "Group"
+msgstr ""
+
+#: ../inc/pages/group_list.class.php:30
+msgid "Groups"
+msgstr ""
+
+#: ../inc/pages/group_list.class.php:39
+#: ../inc/pages/services_list.class.php:38
+msgid "Name"
+msgstr ""
+
+#: ../inc/pages/group_list.class.php:208
+msgid "Add Group"
+msgstr ""
+
+#: ../inc/pages/group_list.class.php:209
+msgid "Delete Groups"
+msgstr ""
+
+#: ../inc/pages/group_list.class.php:245
+msgid "No groups found."
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:31
+msgid "Mail Log"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:32
+msgid "Mail Logs"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:44
+#: ../inc/pages/soc_logs_list.class.php:44
+msgid "Post"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:48
+#: ../inc/pages/soc_logs_list.class.php:48
+msgid "Status"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:49
+#: ../inc/pages/soc_logs_list.class.php:49
+msgid "Date"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:173
+#: ../inc/pages/soc_logs_list.class.php:180
+msgid "View"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:174
+#: ../inc/pages/soc_logs_list.class.php:181
+msgid "Only This Post"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:209
+#: ../inc/pages/soc_logs_list.class.php:228
+msgid "Fail"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:210
+msgid "Sent"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:211
+#: ../inc/pages/soc_logs_list.class.php:230
+msgid "Processing"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:212
+#: ../inc/pages/soc_logs_list.class.php:231
+msgid "In Queue"
+msgstr ""
+
+#: ../inc/pages/mail_logs_list.class.php:237
+#: ../inc/pages/soc_logs_list.class.php:256
+msgid "No logs found."
+msgstr ""
+
+#: ../inc/pages/pages.php:23
 msgid "Mail groups"
 msgstr ""
 
-#: ../inc/pages/pages.php:25
-msgid "Add mail groups"
-msgstr ""
-
-#: ../inc/pages/pages.php:26
+#: ../inc/pages/pages.php:24
 msgid "Mail services"
 msgstr ""
 
-#: ../inc/pages/pages.php:27
-msgid "Add mail service"
-msgstr ""
-
-#: ../inc/pages/pages.php:28
+#: ../inc/pages/pages.php:25
 msgid "Logs"
 msgstr ""
 
-#: ../inc/pages/pages.php:31
+#: ../inc/pages/pages.php:28
 msgid "Settings"
 msgstr ""
 
-#: ../inc/pages/pages.php:162
-#: ../inc/pages/pages.php:167
-#: ../inc/pages/pages.php:472
-#: ../inc/pages/pages.php:477
-#: ../inc/pages/pages.php:679
-#: ../inc/pages/pages.php:1083
-#: ../inc/pages/pages.php:1088
-#: ../inc/pages/pages.php:1273
-#: ../inc/pages/pages.php:1464
-#: ../inc/pages/pages.php:1469
-#: ../inc/pages/pages.php:1590
-msgid "Error occurred"
+#: ../inc/pages/pages.php:38
+msgid "Social Poster"
 msgstr ""
 
-#: ../inc/pages/pages.php:164
-msgid "Log has been deleted"
+#: ../inc/pages/pages.php:95
+msgid "Delete Logs"
 msgstr ""
 
-#: ../inc/pages/pages.php:180
+#: ../inc/pages/pages.php:121
 msgid "Social Logs"
 msgstr ""
 
-#: ../inc/pages/pages.php:181
+#: ../inc/pages/pages.php:122
 msgid "Email Logs"
 msgstr ""
 
-#: ../inc/pages/pages.php:272
-#: ../inc/pages/pages.php:927
-#: ../inc/pages/pages.php:1352
-#: ../inc/pages/pages.php:1513
-msgid "All fields are required"
+#: ../inc/pages/pages.php:176
+msgid "Administrator"
 msgstr ""
 
-#: ../inc/pages/pages.php:276
-#: ../inc/pages/pages.php:526
-#: ../inc/pages/pages.php:931
-#: ../inc/pages/pages.php:1142
-msgid "Passwords do not match"
+#: ../inc/pages/pages.php:177
+msgid "Editor"
 msgstr ""
 
-#: ../inc/pages/pages.php:280
-#: ../inc/pages/pages.php:530
-msgid "Please choose a social network."
+#: ../inc/pages/pages.php:178
+msgid "Author"
 msgstr ""
 
-#: ../inc/pages/pages.php:284
-#: ../inc/pages/pages.php:534
-msgid "Please fill the board names"
+#: ../inc/pages/pages.php:210
+msgid "Path can not be empty whe CLI / CGI method selected"
 msgstr ""
 
-#: ../inc/pages/pages.php:339
-msgid "Account has been added"
+#: ../inc/pages/pages.php:212
+msgid "Wrong PHP CLI path"
 msgstr ""
 
-#: ../inc/pages/pages.php:343
-#: ../inc/pages/pages.php:405
-msgid "You exceeded the limit of maximum number of accounts"
+#: ../inc/pages/pages.php:214
+msgid "File does not exist"
 msgstr ""
 
-#: ../inc/pages/pages.php:361
-#: ../inc/pages/pages.php:627
-msgid "Login"
-msgstr ""
-
-#: ../inc/pages/pages.php:362
-#: ../inc/pages/pages.php:629
-#: ../inc/pages/pages.php:989
-#: ../inc/pages/pages.php:1226
-msgid "Password"
-msgstr ""
-
-#: ../inc/pages/pages.php:363
-#: ../inc/pages/pages.php:631
-#: ../inc/pages/pages.php:990
-#: ../inc/pages/pages.php:1228
-msgid "Confirm Password"
-msgstr ""
-
-#: ../inc/pages/pages.php:381
-#: ../inc/pages/pages.php:653
-#: ../inc/pages/pages.php:1003
-#: ../inc/pages/pages.php:1235
-msgid "Automatization"
-msgstr ""
-
-#: ../inc/pages/pages.php:385
-#: ../inc/pages/pages.php:657
-msgid "Post on"
-msgstr ""
-
-#: ../inc/pages/pages.php:389
-msgid "Page urls / Board names"
-msgstr ""
-
-#: ../inc/pages/pages.php:391
-#: ../inc/pages/pages.php:663
-#: ../inc/pages/pages.php:1793
-msgid "Each page from new line"
-msgstr ""
-
-#: ../inc/pages/pages.php:398
-#: ../inc/pages/pages.php:1020
-#: ../inc/pages/pages.php:1402
-msgid "Add"
-msgstr ""
-
-#: ../inc/pages/pages.php:474
-#: ../inc/pages/pages.php:1085
-#: ../inc/pages/pages.php:1466
-msgid "Account has been deleted"
-msgstr ""
-
-#: ../inc/pages/pages.php:522
-msgid "Fill the login field please"
-msgstr ""
-
-#: ../inc/pages/pages.php:590
-msgid "Account has been updated"
-msgstr ""
-
-#: ../inc/pages/pages.php:661
-msgid "Page urls / Boards names"
-msgstr ""
-
-#: ../inc/pages/pages.php:671
-#: ../inc/pages/pages.php:845
-#: ../inc/pages/pages.php:1265
-#: ../inc/pages/pages.php:1582
-#: ../inc/pages/pages.php:1816
-msgid "Save"
-msgstr ""
-
-#: ../inc/pages/pages.php:672
-#: ../inc/pages/pages.php:1266
-#: ../inc/pages/pages.php:1583
-#: ../inc/pages/pages.php:1820
-msgid "Cancel"
-msgstr ""
-
-#: ../inc/pages/pages.php:728
+#: ../inc/pages/pages.php:224
 msgid "Settings updated"
 msgstr ""
 
-#: ../inc/pages/pages.php:744
-msgid "Maximum accounts"
+#: ../inc/pages/pages.php:245
+msgid "Run method"
 msgstr ""
 
-#: ../inc/pages/pages.php:746
-msgid "Maximum number of accounts for user"
+#: ../inc/pages/pages.php:247
+msgid "Using system command or htpp connection"
 msgstr ""
 
-#: ../inc/pages/pages.php:767
-msgid "Maximum accounts for posting"
+#: ../inc/pages/pages.php:259
+msgid "Path to PHP CLI"
 msgstr ""
 
-#: ../inc/pages/pages.php:769
-msgid "The maximum number of selected accounts for posting"
+#: ../inc/pages/pages.php:261
+msgid "Patch to PHP CLI/CGI file"
 msgstr ""
 
-#: ../inc/pages/pages.php:790
+#: ../inc/pages/pages.php:270
 msgid "Connection method"
 msgstr ""
 
-#: ../inc/pages/pages.php:799
+#: ../inc/pages/pages.php:272
+msgid "Using localhos or external ip for connection"
+msgstr ""
+
+#: ../inc/pages/pages.php:284
+msgid "Run in Background"
+msgstr ""
+
+#: ../inc/pages/pages.php:286
+msgid "Use ignore_user_abort() to run the poster in background"
+msgstr ""
+
+#: ../inc/pages/pages.php:298
+msgid "Maximum accounts"
+msgstr ""
+
+#: ../inc/pages/pages.php:300
+msgid "Maximum number of accounts for user"
+msgstr ""
+
+#: ../inc/pages/pages.php:321
+msgid "Maximum accounts for posting"
+msgstr ""
+
+#: ../inc/pages/pages.php:323
+msgid "The maximum number of selected accounts for posting"
+msgstr ""
+
+#: ../inc/pages/pages.php:344
 msgid "Minimal role"
 msgstr ""
 
-#: ../inc/pages/pages.php:801
+#: ../inc/pages/pages.php:346
 msgid "Minimal role for using the social poster plugin"
 msgstr ""
 
-#: ../inc/pages/pages.php:822
+#: ../inc/pages/pages.php:367
 msgid "Maximum connections"
 msgstr ""
 
-#: ../inc/pages/pages.php:824
+#: ../inc/pages/pages.php:369
 msgid "Disable the posting feature when too much posts are in process"
 msgstr ""
 
-#: ../inc/pages/pages.php:935
-msgid "Please choose a mail service."
+#: ../inc/pages/pages.php:399
+msgid "Checked"
 msgstr ""
 
-#: ../inc/pages/pages.php:966
-msgid "Group has been added"
+#: ../inc/pages/pages.php:400
+msgid "Not Checked"
 msgstr ""
 
-#: ../inc/pages/pages.php:988
-#: ../inc/pages/pages.php:1224
-msgid "Service account"
+#: ../inc/pages/pages.php:530
+msgid "No Image"
 msgstr ""
 
-#: ../inc/pages/pages.php:992
-msgid "Mail service"
+#: ../inc/pages/pages.php:572
+msgid "Post On"
 msgstr ""
 
-#: ../inc/pages/pages.php:1007
-msgid "Group Name"
+#: ../inc/pages/pages.php:583
+msgid "Board Names:"
 msgstr ""
 
-#: ../inc/pages/pages.php:1011
-#: ../inc/pages/pages.php:1255
-msgid "Emails"
+#: ../inc/pages/pages.php:584
+msgid "Page URL:"
 msgstr ""
 
-#: ../inc/pages/pages.php:1013
-#: ../inc/pages/pages.php:1257
-msgid "Each email from new line"
+#: ../inc/pages/pages.php:594
+msgid "Link Description"
 msgstr ""
 
-#: ../inc/pages/pages.php:1134
-msgid "Enter the group name field please"
+#: ../inc/pages/services_list.class.php:26
+msgid "Services"
 msgstr ""
 
-#: ../inc/pages/pages.php:1138
-msgid "Fill the account field please"
+#: ../inc/pages/services_list.class.php:159
+msgid "Add service"
 msgstr ""
 
-#: ../inc/pages/pages.php:1146
-msgid "Please add emails to group."
+#: ../inc/pages/services_list.class.php:160
+msgid "Delete Services"
 msgstr ""
 
-#: ../inc/pages/pages.php:1184
-#: ../inc/pages/pages.php:1541
-msgid "Group has been updated"
-msgstr ""
-
-#: ../inc/pages/pages.php:1231
-msgid "Group name"
-msgstr ""
-
-#: ../inc/pages/pages.php:1375
-msgid "Service has been added"
-msgstr ""
-
-#: ../inc/pages/pages.php:1393
-#: ../inc/pages/pages.php:1573
-msgid "Service name"
-msgstr ""
-
-#: ../inc/pages/pages.php:1394
-#: ../inc/pages/pages.php:1574
-#: ../inc/pages/services_list.class.php:36
-msgid "Smpt"
-msgstr ""
-
-#: ../inc/pages/pages.php:1395
-#: ../inc/pages/pages.php:1575
-#: ../inc/pages/services_list.class.php:37
-msgid "Port"
-msgstr ""
-
-#: ../inc/pages/pages.php:1397
-#: ../inc/pages/pages.php:1577
-#: ../inc/pages/services_list.class.php:38
-msgid "SSL"
-msgstr ""
-
-#: ../inc/pages/pages.php:1742
-msgid "Image"
-msgstr ""
-
-#: ../inc/pages/pages.php:1791
-msgid "Page URLS"
-msgstr ""
-
-#: ../inc/pages/pages.php:1801
-msgid "Board Names"
-msgstr ""
-
-#: ../inc/pages/pages.php:1803
-msgid "Each board from new line"
-msgstr ""
-
-#: ../inc/pages/pages.php:1826
-msgid "close"
-msgstr ""
-
-#: ../inc/pages/services_list.class.php:139
-msgid "Yes"
-msgstr ""
-
-#: ../inc/pages/services_list.class.php:140
-msgid "No"
-msgstr ""
-
-#: ../inc/pages/services_list.class.php:162
+#: ../inc/pages/services_list.class.php:189
 msgid "No services found."
 msgstr ""
 
-#: ../inc/pages/soc_logs_list.class.php:43
+#: ../inc/pages/soc_logs_list.class.php:31
+msgid "Soc Log"
+msgstr ""
+
+#: ../inc/pages/soc_logs_list.class.php:32
+msgid "Soc Logs"
+msgstr ""
+
+#: ../inc/pages/soc_logs_list.class.php:47
 msgid "Post To"
 msgstr ""
 
-#: ../inc/pages/soc_logs_list.class.php:159
-msgid "Profile"
-msgstr ""
-
-#: ../inc/pages/soc_logs_list.class.php:212
+#: ../inc/pages/soc_logs_list.class.php:229
 msgid "Posted"
 msgstr ""
 
