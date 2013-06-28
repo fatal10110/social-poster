@@ -57,8 +57,8 @@ if($res || $res2)
             'post' => $post_id,
             'uid' => $current_user->ID,
             'serv' => $serv,
-            'path' => $path,
-            'url_path' => SP_PDIR,
+            'path' => SP_PDIR,
+            'url_path' => $path,
             'fpath' => ABSPATH,
     );
     
