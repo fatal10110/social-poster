@@ -442,7 +442,6 @@ function soc_start_posting($post_id,$post)
 */
             $guid = urlencode($post->guid);
             
-            $path = PLUGINDIR.'/'.dirname( plugin_basename( __FILE__ ) );
             
             include_once (SP_PDIR.'/inc/poster.php');
 

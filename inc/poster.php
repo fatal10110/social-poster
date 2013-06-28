@@ -8,6 +8,9 @@
  require(SP_PDIR.'/inc/crypt.php');
  require(SP_PDIR.'/inc/core/sp_files.class.php');
  
+ $path = parse_url(SP_PURL);
+ $path = $path['path']; 
+ 
 $acc_id = array();
 $grp_id = array();
 
