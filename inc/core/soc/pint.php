@@ -15,22 +15,20 @@ class PINT extends poster
         $login = urlencode($this->login);
         $pass = urlencode($this->pass);
         
-       $this->pint_get('http://pinterest.com/');
-        
         $r = $this->pint_get('https://pinterest.com/login/?next=%2F');
+        
+        $headers = array('Referer: https://pinterest.com/login/?next=%2Flogin%2F','X-CSRFToken: '.$this->csrf, 'X-NEW-APP: 1');
+        
+        $post = 'data=%7B%22options%22%3A%7B%22username_or_email%22%3A%22'.$login.'%22%2C%22password%22%3A%22'.$pass.'%22%7D%2C%22context%22%3A%7B%22app_version%22%3A%22cc40cb7%22%7D%7D&source_url=%2Flogin%2F&module_path=App()%3ELoginPage()%3ELogin()%3EButton(class_name%3Dprimary%2C+text%3DLog+in%2C+type%3Dsubmit%2C+tagName%3Dbutton%2C+size%3Dlarge)';
  
-        preg_match("#name='csrfmiddlewaretoken'[^>]+?value='(.*?)'#m", $r, $csrf);
-        preg_match("#name='_ch'[^>]+?value='(.*?)'#", $r, $ch);
-        $this->csrf = $csrf[1];
-        $headers = array('Referer: https://pinterest.com/login/?next=%2Flogin%2F');
- 
-       $r = $this->pint_post('https://pinterest.com/login/?next=%2Flogin%2F','email='.$login.'&password='.$pass.'&next=%2F&csrfmiddlewaretoken='.urlencode($csrf[1]).'&_ch='.urlencode($ch[1]),$headers);
-       
+       $r = $this->pint_post('https://pinterest.com/resource/UserSessionResource/create/',$post,$headers);
        
     }
     
     public function post()
     {
+        $this->url = 'http://codecanyon.net/item/social-poster/2444100';
+        $this->image = 'http://1.s3.envato.com/files/60374242/be-social-big.jpg';
         $url = $this->url;
         $image = $this->image;
         $text = $this->text;   
@@ -39,7 +37,6 @@ class PINT extends poster
        if(!isset($image) || empty($image)) return '0';
         
         $r = $this->pint_get('http://pinterest.com/');
-        
         $this->pint_get('http://pinterest.com/pin/find/?url='.urlencode($url));
         
         $data = urlencode('{"options":{},"module":{"name":"PinCreate","options":{"action":"create","image_url":"'.$image.'","link":"'.$url.'","method":"scraped"},"append":false,"errorStrategy":0},"context":{"app_version":"5a2f6e7"}}');
@@ -59,8 +56,6 @@ class PINT extends poster
         $headers = array('X-CSRFToken: '.$this->csrf,'X-NEW-APP: 1','X-Requested-With: XMLHttpRequest');
 
         $r = $this->pint_post('http://pinterest.com/resource/PinResource/create/',$post, $headers);
-
-        sleep(5);
         
         if(preg_match('#"error"\: null\}\}#',$r))
             return '1';
@@ -87,7 +82,7 @@ class PINT extends poster
             file_put_contents('logs/with_head.html',$res);
             $this->pc = $cc[1];
         }   
-        if(preg_match('#Set-Cookie\: csrftoken="(.+?)";#',$res,$csrf))
+        if(preg_match('#Set-Cookie\: csrftoken="*(.+?)"*;#',$res,$csrf))
             $this->csrf = $csrf[1];
         
         return $res;
@@ -104,9 +99,8 @@ class PINT extends poster
         
         if(preg_match('#Set-Cookie\: _pinterest_sess="(.+?)";#',$res,$cc)) {
             $this->pc = $cc[1];
-        file_put_contents('logs/with_head.html',$res);
         }
-        if(preg_match('#Set-Cookie\: csrftoken="(.+?)";#',$res,$csrf))
+        if(preg_match('#Set-Cookie\: csrftoken="*(.+?)"*;#',$res,$csrf))
             $this->csrf = $csrf[1];
             
         return $res;
